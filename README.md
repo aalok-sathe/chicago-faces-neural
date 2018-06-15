@@ -5,6 +5,7 @@ You will need to obtain your own copy from
 [here](http://faculty.chicagobooth.edu/bernd.wittenbrink/cfd/index.html) and
 organize and rename some of the files in the manner described below.
 
+```bash
 .
 ├── code
 │   └── faces-acgan.py
@@ -14,7 +15,8 @@ organize and rename some of the files in the manner described below.
         ├── CFD 2.0.3 Read Me.pdf
         ├── data.csv
         └── images [597 entries]
-        
+```
+
 Note: `.../images` contains the raw images, obtained as-are, with the same
 names. The file `data.csv` is a csv export of the *first* page of the `.xlsx`
 provided in the CFD. The `CFD 2.0.3 Norming Data and Codebook.ods` file is
