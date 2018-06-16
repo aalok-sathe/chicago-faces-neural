@@ -1,4 +1,7 @@
 ## A repository to use the Chicago Face Database to train neural networks.
+[![Keras](https://img.shields.io/badge/framework-keras-red.svg)](https://keras.io)
+[![Python ver](https://img.shields.io/pypi/pyversions/Django.svg)](https://www.python.org/)
+
 
 Note, CFD is not provided here due to copyright reasons.
 You will need to obtain your own copy from
