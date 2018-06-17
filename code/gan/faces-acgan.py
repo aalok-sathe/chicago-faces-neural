@@ -1,7 +1,7 @@
 #!/bin/env python3
-#from __future__ import print_function, division
+# from __future__ import print_function, division
 
-#from keras.datasets import mnist
+# from keras.datasets import mnist
 from keras.layers import Input, Dense, Reshape, Flatten, Dropout, multiply
 from keras.layers import BatchNormalization, Activation, Embedding, ZeroPadding2D
 from keras.layers.advanced_activations import LeakyReLU
@@ -23,7 +23,12 @@ class ACGAN():
         self.num_races = 4
         self.num_genders = 2
         self.num_emotions = 5
-        self.validity = 2
+        self.validity = 1
+        self.actual_classes = \
+            + self.num_races \
+            + self.num_genders \
+            + self.num_emotions
+
         self.latent_dim = 100   # whatis?
 
         optimizer = Adam(0.0002, 0.5)
@@ -42,21 +47,22 @@ class ACGAN():
         # The generator takes noise and the target label as input
         # and generates the corresponding digit of that label
         noise = Input(shape=(self.latent_dim,))
-        label = Input(shape=(1,))
-        img = self.generator([noise, label])
+        race_label = Input(shape=(self.num_races,))
+        gender_label = Input(shape=(self.num_genders,))
+        emotion_label = Input(shape=(self.num_emotions,))
+        img = self.generator([noise, race_label, gender_label, emotion_label])
 
         # For the combined model we will only train the generator
         self.discriminator.trainable = False
 
         # The discriminator takes generated image as input and determines validity
         # and the label of that image
-        valid, target_label = self.discriminator(img)
+        output = self.discriminator(img)
 
         # The combined model  (stacked generator and discriminator)
         # Trains the generator to fool the discriminator
-        self.combined = Model([noise, label], [valid, target_label])
-        self.combined.compile(loss=losses,
-            optimizer=optimizer)
+        self.combined = Model([noise, label], [output])
+        self.combined.compile(loss=losses, optimizer=optimizer)
 
     def build_generator(self):
 
@@ -79,8 +85,8 @@ class ACGAN():
         model.summary()
 
         noise = Input(shape=(self.latent_dim,))
-        label = Input(shape=(1,), dtype='int32')
-        label_embedding = Flatten()(Embedding(self.num_classes, 100)(label))
+        label = Input(shape=(self.actual_classes,), dtype='int32')
+        label_embedding = Flatten()(Embedding(self.actual_classes, 100)(label))
 
         model_input = multiply([noise, label_embedding])
         img = model(model_input)
@@ -117,9 +123,11 @@ class ACGAN():
 
         # Determine validity and label of the image
         validity = Dense(1, activation="sigmoid")(features)
-        label = Dense(self.num_classes+1, activation="softmax")(features)
+        race_label = Dense(self.num_races + 1)(features)
+        gender_label = Dense(self.num_genders + 1)(features)
+        emotion_label = Dense(self.num_emotions + 1)(features)
 
-        return Model(img, [validity, label])
+        return Model(img, [validity, race_label, gender_label, emotion_label])
 
     def train(self, epochs, batch_size=128, sample_interval=50):
 
@@ -180,7 +188,7 @@ class ACGAN():
                 self.sample_images(epoch)
 
     def sample_images(self, epoch):
-        r, c = 10, 10
+        r, c = self.actual_classes, 10
         noise = np.random.normal(0, 1, (r * c, 100))
         sampled_labels = np.array([num for _ in range(r) for num in range(c)])
         gen_imgs = self.generator.predict([noise, sampled_labels])
@@ -192,7 +200,7 @@ class ACGAN():
         for i in range(r):
             for j in range(c):
                 axs[i,j].imshow(gen_imgs[cnt,:,:,0], cmap='gray')
-                axs[i,j].axis('off')
+                axs[i,j].axis('on')
                 cnt += 1
         fig.savefig("images/%d.png" % epoch)
         plt.close()
@@ -214,4 +222,4 @@ class ACGAN():
 
 if __name__ == '__main__':
     acgan = ACGAN()
-    acgan.train(epochs=14000, batch_size=32, sample_interval=200)
+    acgan.train(epochs=1000, batch_size=32, sample_interval=50)
