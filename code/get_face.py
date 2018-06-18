@@ -169,13 +169,10 @@ class face_provider:
             ], dtype=np.uint8))
 
         return returnable
-    # def make_grayscale(self, rac='W', id='022', gen='F', emo='HC'):
-    #     img = self.images[rac][id][gen][emo]
-    #     img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 
-# fp = face_provider()
-# fp.index_faces()
-# fp.dump_to_pickle()
-# with open('face_provider.get-face.py.pickle', 'wb') as file:
-#     pickle.dump(fp, file)
+
+fp = face_provider()
+fp.index_faces()
+fp.dump_to_pickle()
+
 # print(fp.list_faces('W','M','HC'))
