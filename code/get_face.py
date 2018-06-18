@@ -162,6 +162,7 @@ class face_provider:
             # ], dtype=np.uint8))
         for entry in test_set:
             entry = entry.split()
+            print(entry)
             returnable[1][0].append(self.get_face(*entry))
             returnable[1][1].append(Gender[entry[1]].value)
             # np.array([
