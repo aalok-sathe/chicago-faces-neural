@@ -148,29 +148,31 @@ class face_provider:
             (np.array([], dtype=np.float32),
              np.array([], dtype=np.float32)), # Train
             (np.array([], dtype=np.float32),
-             np.array([], dtype=np.array)), # Test
+             np.array([], dtype=np.float32)), # Test
         )
         # Iterate over entries in train and test sets and add labels to array
         for entry in train_set:
             entry = entry.split()
             returnable[0][0].append(self.get_face(*entry))
-            returnable[0][1].append(np.array([
-                Race[entry[0]].value,
-                Gender[entry[1]].value,
-                Emotion[entry[2]].value,
-            ], dtype=np.uint8))
+            returnable[0][1].append(Gender[entry[1]].value)
+            # np.array([
+            #     Race[entry[0]].value,
+            #     Gender[entry[1]].value,
+            #     Emotion[entry[2]].value,
+            # ], dtype=np.uint8))
         for entry in test_set:
             entry = entry.split()
             returnable[1][0].append(self.get_face(*entry))
-            returnable[1][1].append(np.array([
-                Race[entry[0]].value,
-                Gender[entry[1]].value,
-                Emotion[entry[2]].value,
-            ], dtype=np.uint8))
+            returnable[1][1].append(Gender[entry[1]].value)
+            # np.array([
+            #     Race[entry[0]].value,
+            #     Gender[entry[1]].value,
+            #     Emotion[entry[2]].value,
+            # ], dtype=np.uint8))
 
         return returnable
 
-# 
+#
 # fp = face_provider()
 # fp.index_faces()
 # fp.dump_to_pickle()
