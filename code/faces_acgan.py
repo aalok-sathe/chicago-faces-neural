@@ -31,6 +31,8 @@ class ACGAN():
             + self.num_emotions
 
         self.latent_dim = 100   # whatis?
+        self.face_db = get_face.face_provider()
+        self.face_db.load_from_pickle()
 
         optimizer = Adam(0.0002, 0.5)
         losses = ["binary_crossentropy"]#, 'sparse_categorical_crossentropy']
@@ -133,9 +135,8 @@ class ACGAN():
     def train(self, epochs, batch_size=128, sample_interval=50):
 
         # Load the dataset
-        (X_train, y_train), (_, _) = mnist.load_data()
-
-        print(len(mnist.load_data()))
+        # (X_train, y_train), (_, _) = mnist.load_data()
+        (X_train, y_train), (_, _) = self.face_db.load_data()
 
         # Configure inputs
         X_train = X_train.astype(np.float32)#(X_train.astype(np.float32) - 127.5) / 127.5
