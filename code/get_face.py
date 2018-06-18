@@ -5,6 +5,7 @@ import cv2
 import pickle
 import random
 import numpy as np
+import enum
 from collections import defaultdict
 from progressbar import progressbar
 
@@ -23,6 +24,26 @@ def supply_dict(key = 'genders',
             ('HO', defaultdict(str)),
             ('HC', defaultdict(str)),
         ])
+
+class Race(enum.Enum):
+    A = 0
+    B = 1
+    L = 2
+    W = 3
+    UNK = 4
+
+class Gender(enum.Enum):
+    F = 0
+    M = 1
+    UNK = 2
+
+class Emotion(enum.Enum):
+    A = 0
+    F = 1
+    HC = 2
+    HO = 3
+    N = 4
+    UNK = 5
 
 class face_provider:
 
@@ -125,13 +146,29 @@ class face_provider:
         test_set = all[int(len(all)*train_proportion):]
         returnable = (
             (np.array([], dtype=np.float32),
-             np.array([], dtype=np.float32)),
+             np.array([], dtype=np.float32)), # Train
             (np.array([], dtype=np.float32),
-             np.array([], dtype=np.float32))
+             np.array([], dtype=np.array)), # Test
         )
+        # Iterate over entries in train and test sets and add labels to array
         for entry in train_set:
             entry = entry.split()
+            returnable[0][0].append(self.get_face(*entry))
+            returnable[0][1].append(np.array([
+                Race[entry[0]].value,
+                Gender[entry[1]].value,
+                Emotion[entry[2]].value,
+            ], dtype=np.uint8))
+        for entry in test_set:
+            entry = entry.split()
+            returnable[1][0].append(self.get_face(*entry))
+            returnable[1][1].append(np.array([
+                Race[entry[0]].value,
+                Gender[entry[1]].value,
+                Emotion[entry[2]].value,
+            ], dtype=np.uint8))
 
+        return returnable
     # def make_grayscale(self, rac='W', id='022', gen='F', emo='HC'):
     #     img = self.images[rac][id][gen][emo]
     #     img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
