@@ -141,7 +141,7 @@ class ACGAN():
         # Configure inputs
         X_train = X_train.astype(np.float32)#(X_train.astype(np.float32) - 127.5) / 127.5
         X_train = np.expand_dims(X_train, axis=3)
-        y_train = y_train.reshape(-1, 1)
+        y_train = y_train.reshape(-1, 1)    # First dim unspecified
 
         # Adversarial ground truths
         valid = np.ones((batch_size, 1))
