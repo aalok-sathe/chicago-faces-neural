@@ -124,7 +124,7 @@ class ACGAN():
 
         # Load the dataset
         (X_train, y_train), (_, _) = self.face_db.load_data()
-
+        print('X_train shape 0', X_train.shape[0])
         # Configure inputs
         X_train = (X_train.astype(np.float32) - 127.5) / 127.5
         X_train = np.expand_dims(X_train, axis=3)
@@ -149,7 +149,7 @@ class ACGAN():
 
             # The labels of the digits that the generator tries to create an
             # image representation of
-            sampled_labels = np.random.randint(0, 10, (batch_size, 1))
+            sampled_labels = np.random.randint(0, self.num_classes, (batch_size, 1))
 
             # Generate a half batch of new images
             gen_imgs = self.generator.predict([noise, sampled_labels])

@@ -140,7 +140,7 @@ class face_provider:
         """Method for use in other scripts and/or modules
         to produce DB data in a systematic manner, split into
         a training set and a test set (similar to the keras-MNIST method)"""
-        print(self.indexed_faces)
+        # print(self.indexed_faces)
         all = list(self.indexed_faces)
         random.shuffle(all)
         train_set = all[:int(len(all)*train_proportion)]
@@ -154,7 +154,7 @@ class face_provider:
         # Iterate over entries in train and test sets and add labels to array
         for item in train_set:
             entry = item.split()
-            print(item, entry)
+            # print(item, entry)
             np.append(returnable[0][0], self.get_face(*entry))
             np.append(returnable[0][1], Gender[entry[1]].value)
             # np.array([
@@ -164,9 +164,9 @@ class face_provider:
             # ], dtype=np.uint8))
         for item in test_set:
             entry = item.split()
-            print(entry)
-            returnable[1][0].append(self.get_face(*entry))
-            returnable[1][1].append(Gender[entry[1]].value)
+            # print(entry)
+            np.append(returnable[1][0], self.get_face(*entry))
+            np.append(returnable[1][1], Gender[entry[1]].value)
             # np.array([
             #     Race[entry[0]].value,
             #     Gender[entry[1]].value,
