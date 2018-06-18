@@ -1,18 +1,18 @@
 #!/bin/env python3
 # from __future__ import print_function, division
 
-# from keras.datasets import mnist
+from keras.datasets import mnist
 from keras.layers import Input, Dense, Reshape, Flatten, Dropout, multiply
 from keras.layers import BatchNormalization, Activation, Embedding, ZeroPadding2D
 from keras.layers.advanced_activations import LeakyReLU
 from keras.layers.convolutional import UpSampling2D, Conv2D
 from keras.models import Sequential, Model
 from keras.optimizers import Adam
-import get_face
 
 import matplotlib.pyplot as plt
-
 import numpy as np
+
+import get_face
 
 class ACGAN():
     def __init__(self):
@@ -135,8 +135,10 @@ class ACGAN():
         # Load the dataset
         (X_train, y_train), (_, _) = mnist.load_data()
 
+        print(len(mnist.load_data()))
+
         # Configure inputs
-        X_train = (X_train.astype(np.float32) - 127.5) / 127.5
+        X_train = X_train.astype(np.float32)#(X_train.astype(np.float32) - 127.5) / 127.5
         X_train = np.expand_dims(X_train, axis=3)
         y_train = y_train.reshape(-1, 1)
 
