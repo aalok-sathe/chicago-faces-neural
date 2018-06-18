@@ -143,7 +143,7 @@ class face_provider:
         print(self.indexed_faces)
         all = list(self.indexed_faces)
         random.shuffle(all)
-        train_set = all[int(len(all)*train_proportion)]
+        train_set = all[:int(len(all)*train_proportion)]
         test_set = all[int(len(all)*train_proportion):]
         returnable = (
             (np.array([], dtype=np.float32),
