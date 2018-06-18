@@ -3,6 +3,8 @@
 import os
 import cv2
 import pickle
+import random
+import numpy as np
 from collections import defaultdict
 from progressbar import progressbar
 
@@ -58,24 +60,37 @@ class face_provider:
 
         print("Indexing faces")
 
+        # Iterate over subfolders corresponding to each person in the DB
         for container_name in progressbar(self.image_containers, redirect_stdout=True):
+            # Skip invalid directories
             if len(container_name)<1 or len(container_name.split('-'))<2:
                 print("ignoring", container_name)
                 continue
+            # First two characters of dir name are race, gender. E.g. AF
             rac, gen = container_name[:2]
+            # Now iterate over the individual photos of each person
             for filename in os.listdir(os.path.join(os.path.abspath(path), container_name)):
                 basename = filename.split('.')[0]
                 if not len(basename):
                     continue
                 id,emo = basename.split('-')[2], basename.split('-')[4]
                 print(os.path.join(os.path.abspath(path), filename))
+                # Store image in a central dict
                 self.images[rac][gen][emo][id] = cv2.imread(os.path.join(os.path.abspath(path), container_name, filename), 0)
+                # Crop to a square according to lowest of width or height
                 self.crop_square(rac, gen, emo, id)
+                # Resize to 100x100
                 self.resize(rac, gen, emo, id, 100)
-                self.indexed_faces.add(rac+gen+emo+id)
+                # Add unique identifier to a set for later iteration
+                self.indexed_faces.add(rac+' '+gen+' '+emo+' '+id)
+                # Export processed image to directory, if needed elsewhere
                 cv2.imwrite("../data/processed_dump/%s"%filename, self.images[rac][gen][emo][id])
 
     def crop_square(self, rac='W', gen='F', emo='HC', id='022'):
+        """Crop image to a square with dimension that is lowest
+        of height and width. Whichever one of those dimensions is
+        greater is reduced to the newly determined dimension of
+        the square, using half-delta reduction from two ends"""
         img = self.images[rac][gen][emo][id]
         h,w = img.shape[0:2]
         d = 0.5 * abs(h-w)
@@ -85,16 +100,37 @@ class face_provider:
         self.images[rac][gen][emo][id] = cropped_img
         # return cropped_img
 
-    def resize(self, rac='W', gen='F', emo='HC', id='022', dim=100):
+    def resize(self, rac='W', gen='F', emo='HC', id='022', dim=(100,100)):
+        """Resize image to supplied dimensions"""
         img = self.images[rac][gen][emo][id]
-        img = cv2.resize(img, (dim,dim), interpolation = cv2.INTER_AREA)
+        img = cv2.resize(img, dim, interpolation = cv2.INTER_AREA)
         self.images[rac][gen][emo][id] = img
 
     def get_face(self, rac='W', gen='F', emo='HC', id='022'):
+        """Return a singular face image object from DB"""
         return self.images[rac][gen][emo][id]
 
     def list_faces(self, rac='W', gen='F', emo='HC'):
+        """Return a list of faces of all persons matching provided
+        race, gender, and emotion"""
         return self.images[rac][gen][emo]
+
+    def load_data(self, train_proportion):
+        """Method for use in other scripts and/or modules
+        to produce DB data in a systematic manner, split into
+        a training set and a test set (similar to the keras-MNIST method)"""
+        all = list(self.indexed_faces)
+        random.shuffle(all)
+        train_set = all[int(len(all)*train_proportion)]
+        test_set = all[int(len(all)*train_proportion):]
+        returnable = (
+            (np.array([], dtype=np.float32),
+             np.array([], dtype=np.float32)),
+            (np.array([], dtype=np.float32),
+             np.array([], dtype=np.float32))
+        )
+        for entry in train_set:
+            entry = entry.split()
 
     # def make_grayscale(self, rac='W', id='022', gen='F', emo='HC'):
     #     img = self.images[rac][id][gen][emo]
