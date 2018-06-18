@@ -34,23 +34,20 @@ class face_provider:
         }
         self.indexed_faces = set()
 
-    def load_from_pickle(self):
-        try:
-            with open('pickled/images.pickle', 'rb') as file:
-                self.images = pickle.load(file)
-            with open('pickled/image_containers.pickle', 'rb') as file:
-                self.image_containers = pickle.load(file)
-            with open('pickled/indexed_faces.pickle', 'rb') as file:
-                self.indexed_faces = pickle.load(file)
-        except IOError:
-            print(IOError, "while unpickling index files")
+    def load_from_pickle(self, path="pickled/"):
+        with open(os.path.join(path, "images.pickle"), 'rb') as file:
+            self.images = pickle.load(file)
+        with open(os.path.join(path, "image_containers.pickle"), 'rb') as file:
+            self.image_containers = pickle.load(file)
+        with open(os.path.join(path, "indexed_faces.pickle"), 'rb') as file:
+            self.indexed_faces = pickle.load(file)
 
-    def dump_to_pickle(self):
-        with open('pickled/images.pickle', 'wb') as file:
+    def dump_to_pickle(self, path="pickled/"):
+        with open(os.path.join(path, "images.pickle"), 'wb') as file:
             pickle.dump(self.images, file)
-        with open('pickled/image_containers.pickle', 'wb') as file:
+        with open(os.path.join(path, "image_containers.pickle"), 'wb') as file:
             pickle.dump(self.image_containers, file)
-        with open('pickled/indexed_faces.pickle', 'wb') as file:
+        with open(os.path.join(path, "indexed_faces.pickle"), 'wb') as file:
             pickle.dump(self.indexed_faces, file)
 
     def index_faces(self,
@@ -104,8 +101,8 @@ class face_provider:
     #     img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 
 fp = face_provider()
-
+fp.index_faces()
+fp.dump_to_pickle()
 # with open('face_provider.get-face.py.pickle', 'wb') as file:
 #     pickle.dump(fp, file)
-
-print(fp.list_faces('W','M','HC'))
+# print(fp.list_faces('W','M','HC'))
