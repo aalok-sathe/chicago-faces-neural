@@ -136,7 +136,7 @@ class ACGAN():
 
         # Load the dataset
         # (X_train, y_train), (_, _) = mnist.load_data()
-        (X_train, y_train), (_, _) = self.face_db.load_data()
+        (X_train, y_train), (_,_) = self.face_db.load_data()
 
         # Configure inputs
         X_train = X_train.astype(np.float32)#(X_train.astype(np.float32) - 127.5) / 127.5
