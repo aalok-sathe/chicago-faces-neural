@@ -140,6 +140,7 @@ class face_provider:
         """Method for use in other scripts and/or modules
         to produce DB data in a systematic manner, split into
         a training set and a test set (similar to the keras-MNIST method)"""
+        print(self.indexed_faces)
         all = list(self.indexed_faces)
         random.shuffle(all)
         train_set = all[int(len(all)*train_proportion)]
