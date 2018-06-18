@@ -136,7 +136,7 @@ class face_provider:
         race, gender, and emotion"""
         return self.images[rac][gen][emo]
 
-    def load_data(self, train_proportion):
+    def load_data(self, train_proportion=.9):
         """Method for use in other scripts and/or modules
         to produce DB data in a systematic manner, split into
         a training set and a test set (similar to the keras-MNIST method)"""
