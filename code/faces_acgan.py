@@ -17,8 +17,8 @@ import get_face
 class ACGAN():
     def __init__(self):
         # Input shape
-        self.img_rows = 100
-        self.img_cols = 100
+        self.img_rows = 28
+        self.img_cols = 28
         self.channels = 1
         self.img_shape = (self.img_rows, self.img_cols, self.channels)
         self.num_races = 4
@@ -89,7 +89,7 @@ class ACGAN():
 
         noise = Input(shape=(self.latent_dim,))
         label = Input(shape=(self.actual_classes,), dtype='int32')
-        label_embedding = Flatten()(Embedding(self.actual_classes, 100)(label))
+        label_embedding = Flatten()(Embedding(self.actual_classes, 28)(label))
 
         model_input = multiply([noise, label_embedding])
         img = model(model_input)
