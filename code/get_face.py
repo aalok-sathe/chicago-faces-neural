@@ -153,8 +153,8 @@ class face_provider:
         # Iterate over entries in train and test sets and add labels to array
         for entry in train_set:
             entry = entry.split()
-            returnable[0][0].append(self.get_face(*entry))
-            returnable[0][1].append(Gender[entry[1]].value)
+            np.append(returnable[0][0], self.get_face(*entry))
+            np.append(returnable[0][1], Gender[entry[1]].value)
             # np.array([
             #     Race[entry[0]].value,
             #     Gender[entry[1]].value,
