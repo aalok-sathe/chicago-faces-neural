@@ -68,7 +68,7 @@ class face_provider:
                 if not len(basename):
                     continue
                 id,emo = basename.split('-')[2], basename.split('-')[4]
-                # print(os.path.join(os.path.abspath(path), filename))
+                print(os.path.join(os.path.abspath(path), filename))
                 self.images[rac][gen][emo][id] = cv2.imread(os.path.join(os.path.abspath(path), container_name, filename), 0)
                 self.crop_square(rac, gen, emo, id)
                 self.resize(rac, gen, emo, id, 100)
@@ -100,9 +100,9 @@ class face_provider:
     #     img = self.images[rac][id][gen][emo]
     #     img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 
-fp = face_provider()
-fp.index_faces()
-fp.dump_to_pickle()
+# fp = face_provider()
+# fp.index_faces()
+# fp.dump_to_pickle()
 # with open('face_provider.get-face.py.pickle', 'wb') as file:
 #     pickle.dump(fp, file)
 # print(fp.list_faces('W','M','HC'))
