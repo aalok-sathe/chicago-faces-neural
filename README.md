@@ -9,6 +9,17 @@ You will need to obtain your own copy from
 [here](http://faculty.chicagobooth.edu/bernd.wittenbrink/cfd/index.html) and
 organize and rename some of the files in the manner described below.
 
+The file `faces_acgan.py` is the primary file with an implementation of an
+auxiliary classifier generative adversarial network (AC-GAN). The file
+`get_face.py` is intended for indexing all the images of the CFD, and norming
+them to the input required by the ACGAN. The same module provides a method to
+easily import data into another script, similar to the `keras.datasets.mnist`
+module's `load_data` method.
+
+Although original images are not supplied, processed, and highly reduced
+images are stored as pickled dictionaries, in a way suitable to supply to the
+training script: in grayscale (single channel) and reduced to 100x100.
+
 ```bash
 .
 ├── code
