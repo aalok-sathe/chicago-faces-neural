@@ -35,7 +35,7 @@ class ACGAN():
         self.face_db.load_from_pickle()
 
         optimizer = Adam(0.0002, 0.5)
-        losses = ["binary_crossentropy"]#, 'sparse_categorical_crossentropy']
+        losses = ["binary_crossentropy"]*4#, 'sparse_categorical_crossentropy']
         metrics = ["accuracy"]
 
         # Build and compile the discriminator
