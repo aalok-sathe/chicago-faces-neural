@@ -175,9 +175,9 @@ class face_provider:
 
         return returnable
 
-#
-# fp = face_provider()
-# fp.index_faces()
-# fp.dump_to_pickle()
+if __name__ == '__main__':
+    fp = face_provider()
+    fp.index_faces()
+    fp.dump_to_pickle()
 
-# print(fp.list_faces('W','M','HC'))
+    print(fp.list_faces('W','M','HC'))

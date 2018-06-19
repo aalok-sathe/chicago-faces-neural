@@ -124,7 +124,7 @@ class ACGAN():
 
         # Load the dataset
         (X_train, y_train), (_, _) = self.face_db.load_data()
-        print('X_train shape 0', X_train.shape)
+        print(X_train.shape, y_train.shape)
         # Configure inputs
         X_train = (X_train.astype(np.float32) - 127.5) / 127.5
         X_train = np.expand_dims(X_train, axis=3)
