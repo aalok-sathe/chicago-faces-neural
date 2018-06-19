@@ -97,7 +97,7 @@ class face_provider:
                 id,emo = basename.split('-')[2], basename.split('-')[4]
                 print(os.path.join(os.path.abspath(path), filename))
                 # Store image in a central dict
-                self.images[rac][gen][emo][id] = cv2.imread(os.path.join(os.path.abspath(path), container_name, filename), 0)
+                self.images[rac][gen][emo][id] = cv2.imread(os.path.join(os.path.abspath(path), container_name, filename))
                 # Crop to a square according to lowest of width or height
                 self.crop_square(rac, gen, emo, id)
                 # Resize to 100x100
@@ -127,16 +127,19 @@ class face_provider:
         img = cv2.resize(img, dim, interpolation = cv2.INTER_AREA)
         self.images[rac][gen][emo][id] = img
 
-    def get_face(self, rac='W', gen='F', emo='HC', id='022'):
+    def get_face(self, grayscale=True, rac='W', gen='F', emo='HC', id='022'):
         """Return a singular face image object from DB"""
-        return self.images[rac][gen][emo][id]
+        if grayscale:
+            return cv2.cvtColor(self.images[rac][gen][emo][id], cv2.COLOR_BGR2GRAY)
+        else:
+            return self.images[rac][gen][emo][id]
 
     def list_faces(self, rac='W', gen='F', emo='HC'):
         """Return a list of faces of all persons matching provided
         race, gender, and emotion"""
         return self.images[rac][gen][emo]
 
-    def load_data(self, train_proportion=.9):
+    def load_data(self, grayscale=False, train_proportion=.9):
         """Method for use in other scripts and/or modules
         to produce DB data in a systematic manner, split into
         a training set and a test set (similar to the keras-MNIST method)"""
@@ -153,9 +156,9 @@ class face_provider:
         ]
         # Iterate over entries in train and test sets and add labels to array
         for item in train_set:
-            entry = item.split()
+            entry = dict(zip(['rac', 'gen', 'emo', 'id'], item.split()))
             # print(item, entry)
-            returnable[0][0] = np.append(returnable[0][0], [self.get_face(*entry)])
+            returnable[0][0] = np.append(returnable[0][0], [self.get_face(**entry)])
             returnable[0][1] = np.append(returnable[0][1], [Gender[entry[1]].value])
             # np.array([
             #     Race[entry[0]].value,
@@ -163,9 +166,9 @@ class face_provider:
             #     Emotion[entry[2]].value,
             # ], dtype=np.uint8))
         for item in test_set:
-            entry = item.split()
+            entry = dict(zip(['rac', 'gen', 'emo', 'id'], item.split()))
             # print(entry)
-            returnable[1][0] = np.append(returnable[1][0], self.get_face(*entry))
+            returnable[1][0] = np.append(returnable[1][0], self.get_face(**entry))
             returnable[1][1] = np.append(returnable[1][1], Gender[entry[1]].value)
             # np.array([
             #     Race[entry[0]].value,
@@ -180,4 +183,4 @@ if __name__ == '__main__':
     fp.index_faces()
     fp.dump_to_pickle()
 
-    print(fp.list_faces('W','M','HC'))
+    # print(fp.list_faces('W','M','HC'))
