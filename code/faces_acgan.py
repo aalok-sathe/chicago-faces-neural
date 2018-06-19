@@ -81,12 +81,13 @@ class ACGAN():
 
         model.summary()
 
-        noise = Input(shape=(self.latent_dim,))
+        noise = Input(shape=(self.latent_dim,self.channels))
+        noise = Reshape((-1,1))(noise)
         label = Input(shape=(1,), dtype='int32')
         label_embedding = Flatten()(Embedding(self.num_classes+1, 100)(label))
 
         model_input = multiply([noise, label_embedding])
-        img = model(model_input)
+        img = Reshape((self.img_rows, self.img_cols, self.channels))(model(model_input))
 
         return Model([noise, label], img)
 
@@ -152,7 +153,7 @@ class ACGAN():
             imgs = X_train[idx]
 
             # Sample noise as generator input
-            noise = np.random.normal(0, 1, (batch_size, 100))
+            noise = np.random.normal(0, np.sqrt(np.e), (batch_size, self.latent_dim, self.channels))
 
             # The labels of the digits that the generator tries to create an
             # image representation of
@@ -239,4 +240,4 @@ class ACGAN():
 
 if __name__ == '__main__':
     acgan = ACGAN()
-    acgan.train(epochs=792, batch_size=32, sample_interval=7)
+    acgan.train(epochs=792, batch_size=32, sample_interval=10)
