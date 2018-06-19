@@ -187,10 +187,9 @@ class ACGAN():
                 with open("runtime.kerasconfig", 'r') as file:
                     runtime_params = json.load(file)
                     sample_interval = runtime_params.get("sample_every", sample_interval)
-            except IOError as e:
+            except Exception as e:
                 print(e)
-            except FileNotFoundError as e:
-                print(e)
+
             if epoch % sample_interval == 0:
                 self.save_model()
                 self.sample_images(epoch)
