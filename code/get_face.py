@@ -139,7 +139,7 @@ class face_provider:
         race, gender, and emotion"""
         return self.images[rac][gen][emo]
 
-    def load_data(self, grayscale=False, train_proportion=.9):
+    def load_data(self, grayscale=True, train_proportion=.9):
         """Method for use in other scripts and/or modules
         to produce DB data in a systematic manner, split into
         a training set and a test set (similar to the keras-MNIST method)"""
@@ -158,7 +158,7 @@ class face_provider:
         for item in train_set:
             entry = dict(zip(['rac', 'gen', 'emo', 'id'], item.split()))
             # print(item, entry)
-            returnable[0][0] = np.append(returnable[0][0], [self.get_face(**entry)])
+            returnable[0][0] = np.append(returnable[0][0], [self.get_face(**entry, grayscale=grayscale)])
             returnable[0][1] = np.append(returnable[0][1], [Gender[entry[1]].value])
             # np.array([
             #     Race[entry[0]].value,
@@ -168,8 +168,8 @@ class face_provider:
         for item in test_set:
             entry = dict(zip(['rac', 'gen', 'emo', 'id'], item.split()))
             # print(entry)
-            returnable[1][0] = np.append(returnable[1][0], self.get_face(**entry))
-            returnable[1][1] = np.append(returnable[1][1], Gender[entry[1]].value)
+            returnable[1][0] = np.append(returnable[1][0], [self.get_face(**entry, grayscale=grayscale)])
+            returnable[1][1] = np.append(returnable[1][1], [Gender[entry[1]].value])
             # np.array([
             #     Race[entry[0]].value,
             #     Gender[entry[1]].value,
