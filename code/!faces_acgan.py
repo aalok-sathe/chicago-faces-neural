@@ -10,6 +10,9 @@ from keras.optimizers import Adam
 
 import matplotlib.pyplot as plt
 
+import os
+import time
+import datetime
 import numpy as np
 import get_face
 
@@ -22,7 +25,7 @@ class ACGAN():
         self.img_shape = (self.img_rows, self.img_cols, self.channels)
         self.num_classes = 2
         self.latent_dim = 100
-
+        self.timestamp = datetime.datetime.fromtimestamp(time.time()).strftime('%Y%m%d_%H%M')
         self.face_db = get_face.face_provider()
         self.face_db.load_from_pickle()
 
@@ -65,14 +68,14 @@ class ACGAN():
         model.add(Reshape((25, 25, 128)))
         model.add(BatchNormalization(momentum=0.8))
         model.add(UpSampling2D())
-        model.add(Conv2D(128, kernel_size=3, padding="same"))
+        model.add(Conv2D(128, kernel_size=4, padding="same"))
         model.add(Activation("relu"))
         model.add(BatchNormalization(momentum=0.8))
         model.add(UpSampling2D())
-        model.add(Conv2D(64, kernel_size=3, padding="same"))
+        model.add(Conv2D(64, kernel_size=7, padding="same"))
         model.add(Activation("relu"))
         model.add(BatchNormalization(momentum=0.8))
-        model.add(Conv2D(self.channels, kernel_size=3, padding='same'))
+        model.add(Conv2D(self.channels, kernel_size=10, padding='same'))
         model.add(Activation("tanh"))
 
         model.summary()
@@ -194,9 +197,15 @@ class ACGAN():
         for i in range(r):
             for j in range(c):
                 axs[i,j].imshow(gen_imgs[cnt,:,:,0], cmap='gray')
-                axs[i,j].axis('off')
                 cnt += 1
-        fig.savefig("images/%d.png" % epoch)
+                if i == 0:
+                    axs.set_title(j)
+                else:
+                    axs[i,j].axis('off')
+        fig.tight_layout()
+        if not os.path.exists("images/%s"%self.timestamp):
+            os.makedirs("images/%s"%self.timestamp)
+        fig.savefig("images/%s/%d.png" % (self.timestamp, epoch))
         plt.close()
 
     def save_model(self):
@@ -210,8 +219,8 @@ class ACGAN():
             open(options['file_arch'], 'w').write(json_string)
             model.save_weights(options['file_weight'])
 
-        save(self.generator, "generator")
-        save(self.discriminator, "discriminator")
+        save(self.generator, "generator%s"%self.timestamp)
+        save(self.discriminator, "discriminator%s"%self.timestamp)
 
 
 if __name__ == '__main__':
