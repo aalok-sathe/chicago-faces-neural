@@ -42,6 +42,7 @@ training script: in grayscale (single channel) and reduced to 100x100.
 
 Note: `<path>/images/` contains the raw images, obtained as-are, with the same
 names. The file `data.csv` is a csv export of the *first* page of the `.xlsx`
-provided in the CFD. You *will* need the `.csv` file for this program.
+provided in the CFD. You *will* need the `.csv` file for parts of this program,
+but you may skip generating one for now.
 The `CFD 2.0.3 Norming Data and Codebook.ods` file is simply an Open Document
 Format conversion of the original `.xlsx`, and is not necessary for the program.
