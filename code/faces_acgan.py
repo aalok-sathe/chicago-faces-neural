@@ -81,7 +81,7 @@ class ACGAN():
 
         model.summary()
 
-        noise = Input(shape=(self.latent_dim,self.channels))
+        noise = Input(shape=(self.latent_dim,))
         noise = Reshape((-1,1))(noise)
         label = Input(shape=(1,), dtype='int32')
         label_embedding = Flatten()(Embedding(self.num_classes+1, 100)(label))
@@ -221,7 +221,7 @@ class ACGAN():
         fig.tight_layout()
         if not os.path.exists("images/%s"%self.timestamp):
             os.makedirs("images/%s"%self.timestamp)
-        fig.savefig("images/%s/%d.jpg" % (self.timestamp, epoch), dpi=1000)
+        fig.savefig("images/%s/%d.jpg" % (self.timestamp, epoch), dpi=100)
         plt.close()
 
     def save_model(self):
