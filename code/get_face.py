@@ -145,18 +145,18 @@ class face_provider:
         random.shuffle(all)
         train_set = all[:int(len(all)*train_proportion)]
         test_set = all[int(len(all)*train_proportion):]
-        returnable = (
-            (np.array([], dtype=np.float32),
-             np.array([], dtype=np.float32)), # Train
-            (np.array([], dtype=np.float32),
-             np.array([], dtype=np.float32)), # Test
-        )
+        returnable = [
+            [np.array([], dtype=np.float32),
+             np.array([], dtype=np.float32)], # Train
+            [np.array([], dtype=np.float32),
+             np.array([], dtype=np.float32)], # Test
+        ]
         # Iterate over entries in train and test sets and add labels to array
         for item in train_set:
             entry = item.split()
             # print(item, entry)
-            np.append(returnable[0][0], self.get_face(*entry))
-            np.append(returnable[0][1], Gender[entry[1]].value)
+            returnable[0][0] = np.append(returnable[0][0], self.get_face(*entry))
+            returnable[0][1] = np.append(returnable[0][1], Gender[entry[1]].value)
             # np.array([
             #     Race[entry[0]].value,
             #     Gender[entry[1]].value,
@@ -165,8 +165,8 @@ class face_provider:
         for item in test_set:
             entry = item.split()
             # print(entry)
-            np.append(returnable[1][0], self.get_face(*entry))
-            np.append(returnable[1][1], Gender[entry[1]].value)
+            returnable[1][0] = np.append(returnable[1][0], self.get_face(*entry))
+            returnable[1][1] = np.append(returnable[1][1], Gender[entry[1]].value)
             # np.array([
             #     Race[entry[0]].value,
             #     Gender[entry[1]].value,
