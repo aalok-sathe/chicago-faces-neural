@@ -155,6 +155,7 @@ class face_provider:
              np.array([], dtype=np.float32)], # Test
         ]
         # Iterate over entries in train and test sets and add labels to array
+        print("Preparing train_set with", train_proportion*100, "\% of data")
         for item in progressbar(train_set, redirect_stdout=True):
             entry = dict(zip(['rac', 'gen', 'emo', 'id'], item.split()))
             # print(item, entry)
@@ -165,6 +166,7 @@ class face_provider:
             #     Gender[entry[1]].value,
             #     Emotion[entry[2]].value,
             # ], dtype=np.uint8))
+        print("Preparing test_set with", (1-train_proportion)*100, "\% of data")
         for item in progressbar(test_set, redirect_stdout=True):
             entry = dict(zip(['rac', 'gen', 'emo', 'id'], item.split()))
             # print(entry)
