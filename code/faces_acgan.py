@@ -153,7 +153,7 @@ class ACGAN():
             imgs = X_train[idx]
 
             # Sample noise as generator input
-            noise = np.random.normal(0, np.sqrt(np.e), (batch_size, self.latent_dim, self.channels))
+            noise = np.random.normal(0, np.sqrt(np.e), (batch_size, self.latent_dim))
 
             # The labels of the digits that the generator tries to create an
             # image representation of
