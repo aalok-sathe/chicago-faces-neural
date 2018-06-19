@@ -22,7 +22,7 @@ class ACGAN():
         # Input shape
         self.img_rows = 100
         self.img_cols = 100
-        self.channels = 1
+        self.channels = 3
         self.img_shape = (self.img_rows, self.img_cols, self.channels)
         self.num_classes = 2
         self.latent_dim = 100
@@ -239,4 +239,4 @@ class ACGAN():
 
 if __name__ == '__main__':
     acgan = ACGAN()
-    acgan.train(epochs=792, batch_size=32, sample_interval=10)
+    acgan.train(epochs=792, batch_size=32, sample_interval=7)
