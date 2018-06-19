@@ -16,8 +16,8 @@ import get_face
 class ACGAN():
     def __init__(self):
         # Input shape
-        self.img_rows = 28
-        self.img_cols = 28
+        self.img_rows = 100
+        self.img_cols = 100
         self.channels = 1
         self.img_shape = (self.img_rows, self.img_cols, self.channels)
         self.num_classes = 2
@@ -129,7 +129,7 @@ class ACGAN():
         X_train = (X_train.astype(np.float32) - 127.5) / 127.5
         X_train = np.expand_dims(X_train, axis=3)
         y_train = y_train.reshape(-1, 1)
-        X_train = X_train.reshape(y_train.shape[0],28,28,1)
+        X_train = X_train.reshape(y_train.shape[0],self.img_rows,self.img_cols,1)
 
         print(X_train.shape, y_train.shape)
 
@@ -216,4 +216,4 @@ class ACGAN():
 
 if __name__ == '__main__':
     acgan = ACGAN()
-    acgan.train(epochs=100, batch_size=32, sample_interval=5)
+    acgan.train(epochs=2**13, batch_size=32, sample_interval=2**9)
