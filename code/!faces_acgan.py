@@ -124,11 +124,13 @@ class ACGAN():
 
         # Load the dataset
         (X_train, y_train), (_, _) = self.face_db.load_data()
-        print(X_train.shape, y_train.shape)
+
         # Configure inputs
         X_train = (X_train.astype(np.float32) - 127.5) / 127.5
         X_train = np.expand_dims(X_train, axis=3)
         y_train = y_train.reshape(-1, 1)
+
+        print(X_train.shape, y_train.shape)
 
         # Adversarial ground truths
         valid = np.ones((batch_size, 1))
