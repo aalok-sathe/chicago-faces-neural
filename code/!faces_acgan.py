@@ -61,8 +61,8 @@ class ACGAN():
 
         model = Sequential()
 
-        model.add(Dense(128 * 7 * 7, activation="relu", input_dim=self.latent_dim))
-        model.add(Reshape((7, 7, 128)))
+        model.add(Dense(128 * 25 * 25, activation="relu", input_dim=self.latent_dim))
+        model.add(Reshape((25, 25, 128)))
         model.add(BatchNormalization(momentum=0.8))
         model.add(UpSampling2D())
         model.add(Conv2D(128, kernel_size=3, padding="same"))
@@ -126,7 +126,7 @@ class ACGAN():
         (X_train, y_train), (_, _) = self.face_db.load_data()
 
         # Configure inputs
-        X_train = (X_train.astype(np.float32) - 127.5) / 127.5
+        # X_train = (X_train.astype(np.float32) - 127.5) / 127.5
         X_train = np.expand_dims(X_train, axis=3)
         y_train = y_train.reshape(-1, 1)
         X_train = X_train.reshape(y_train.shape[0],self.img_rows,self.img_cols,1)
