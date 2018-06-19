@@ -155,8 +155,8 @@ class face_provider:
         for item in train_set:
             entry = item.split()
             # print(item, entry)
-            returnable[0][0] = np.append(returnable[0][0], self.get_face(*entry))
-            returnable[0][1] = np.append(returnable[0][1], Gender[entry[1]].value)
+            returnable[0][0] = np.append(returnable[0][0], [self.get_face(*entry)])
+            returnable[0][1] = np.append(returnable[0][1], [Gender[entry[1]].value])
             # np.array([
             #     Race[entry[0]].value,
             #     Gender[entry[1]].value,
