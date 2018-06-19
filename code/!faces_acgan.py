@@ -216,4 +216,4 @@ class ACGAN():
 
 if __name__ == '__main__':
     acgan = ACGAN()
-    acgan.train(epochs=2**13, batch_size=32, sample_interval=2**9)
+    acgan.train(epochs=792, batch_size=32, sample_interval=20)
