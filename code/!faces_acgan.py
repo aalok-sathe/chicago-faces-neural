@@ -190,13 +190,13 @@ class ACGAN():
         sampled_labels = np.array([num%self.num_classes for _ in range(r) for num in range(c)])
         gen_imgs = self.generator.predict([noise, sampled_labels])
         # Rescale images 0 - 1
-        # gen_imgs = 0.5 * gen_imgs + 0.5
+        gen_imgs = (1/0.5) * gen_imgs + 0.5
 
         fig, axs = plt.subplots(r, c)
         cnt = 0
         for i in range(r):
             for j in range(c):
-                axs[i,j].imshow(gen_imgs[cnt,:,:,0], cmap='gray')
+                axs[i,j].imshow(gen_imgs[cnt,:,:,0], aspect='equal', cmap='gray')
                 cnt += 1
                 if i == 0:
                     axs[i,j].set_title(j%self.num_classes)
