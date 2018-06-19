@@ -101,7 +101,7 @@ class face_provider:
                 # Crop to a square according to lowest of width or height
                 self.crop_square(rac, gen, emo, id)
                 # Resize to 100x100
-                self.resize(rac, gen, emo, id, (28,28))
+                self.resize(rac, gen, emo, id, (100,100))
                 # Add unique identifier to a set for later iteration
                 self.indexed_faces.add(rac+' '+gen+' '+emo+' '+id)
                 # Export processed image to directory, if needed elsewhere
