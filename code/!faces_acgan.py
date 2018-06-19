@@ -185,18 +185,18 @@ class ACGAN():
                 self.sample_images(epoch)
 
     def sample_images(self, epoch):
-        r, c = self.num_classes*3, self.num_classes*3
+        r, c = self.num_classes, self.num_classes
         noise = np.random.normal(0, 1, (r * c, 100))
         sampled_labels = np.array([num%self.num_classes for _ in range(r) for num in range(c)])
         gen_imgs = self.generator.predict([noise, sampled_labels])
         # Rescale images 0 - 1
-        gen_imgs = (0.2) * gen_imgs# + 0.5
+        gen_imgs = (0.5) * gen_imgs + 0.5
 
         fig, axs = plt.subplots(r, c)
         cnt = 0
         for i in range(r):
             for j in range(c):
-                axs[i,j].imshow(gen_imgs[cnt,:,:,0], aspect='auto', cmap='gray')
+                axs[i,j].imshow(gen_imgs[cnt,:,:,0], extent=[0,100,0,1], aspect='100', cmap='gray')
                 cnt += 1
                 if i == 0:
                     axs[i,j].set_title(j%self.num_classes)
