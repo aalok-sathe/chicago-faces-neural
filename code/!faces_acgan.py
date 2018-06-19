@@ -190,13 +190,13 @@ class ACGAN():
         sampled_labels = np.array([num%self.num_classes for _ in range(r) for num in range(c)])
         gen_imgs = self.generator.predict([noise, sampled_labels])
         # Rescale images 0 - 1
-        gen_imgs = (1/0.5) * gen_imgs + 0.5
+        gen_imgs = (0.2) * gen_imgs# + 0.5
 
         fig, axs = plt.subplots(r, c)
         cnt = 0
         for i in range(r):
             for j in range(c):
-                axs[i,j].imshow(gen_imgs[cnt,:,:,0], aspect='equal', cmap='gray')
+                axs[i,j].imshow(gen_imgs[cnt,:,:,0], aspect='auto', cmap='gray')
                 cnt += 1
                 if i == 0:
                     axs[i,j].set_title(j%self.num_classes)
@@ -204,7 +204,7 @@ class ACGAN():
                     axs[i,j].set_xticklabels([])
                 else:
                     axs[i,j].axis('off')
-        fig.tight_layout()
+        # fig.tight_layout()
         if not os.path.exists("images/%s"%self.timestamp):
             os.makedirs("images/%s"%self.timestamp)
         fig.savefig("images/%s/%d.png" % (self.timestamp, epoch))
