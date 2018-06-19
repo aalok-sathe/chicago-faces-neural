@@ -82,14 +82,12 @@ class ACGAN():
         model.summary()
 
         noise = Input(shape=(self.latent_dim,))
-        noise = Reshape((-1,1))(noise)
+        # noise = Reshape((-1,1))(noise)
         label = Input(shape=(1,), dtype='int32')
         label_embedding = Flatten()(Embedding(self.num_classes+1, 100)(label))
 
         model_input = multiply([noise, label_embedding])
         img = model(model_input)
-        # print(img.shape)
-        # img = Reshape((-1, self.img_rows, self.img_cols, self.channels))(img)
 
         return Model([noise, label], img)
 
