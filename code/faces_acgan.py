@@ -10,6 +10,7 @@ from keras.optimizers import Adam
 
 import matplotlib.pyplot as plt
 
+import json
 import os
 import time
 import datetime
@@ -126,13 +127,13 @@ class ACGAN():
     def train(self, epochs, batch_size=128, sample_interval=50):
 
         # Load the dataset
-        (X_train, y_train), (_, _) = self.face_db.load_data()
+        (X_train, y_train), (_, _) = self.face_db.load_data(grayscale=False)
 
         # Configure inputs
         # X_train = (X_train.astype(np.float32) - 127.5) / 127.5
         X_train = np.expand_dims(X_train, axis=3)
         y_train = y_train.reshape(-1, 1)
-        X_train = X_train.reshape(y_train.shape[0],self.img_rows,self.img_cols,1)
+        X_train = X_train.reshape(y_train.shape[0],self.img_rows,self.img_cols,3)
 
         print(X_train.shape, y_train.shape)
 
@@ -160,7 +161,7 @@ class ACGAN():
             # Generate a half batch of new images
             gen_imgs = self.generator.predict([noise, sampled_labels])
 
-            # Image labels. 0-9 if image is valid or 10 if it is generated (fake)
+            # Image labels. 0-1 if image is valid or 2 if it is generated (fake)
             img_labels = y_train[idx]
             fake_labels = 2 * np.ones(img_labels.shape)
 
@@ -180,9 +181,16 @@ class ACGAN():
             print ("%d [D loss: %f, acc.: %.2f%%, op_acc: %.2f%%] [G loss: %f]" % (epoch, d_loss[0], 100*d_loss[3], 100*d_loss[4], g_loss[0]))
 
             # If at save interval => save generated image samples
+            runtime_params = dict()
+            try:
+                with open("runtime.kerasconfig", 'r') as file:
+                    runtime_params = json.load(file)
+                    sample_interval = runtime_params.get("sample_every", sample_interval)
             if epoch % sample_interval == 0:
                 self.save_model()
                 self.sample_images(epoch)
+            if epoch >= runtime_params.get("num_epochs", epochs):
+                break
 
     def sample_images(self, epoch):
         r, c = self.num_classes, self.num_classes
@@ -207,7 +215,7 @@ class ACGAN():
         fig.tight_layout()
         if not os.path.exists("images/%s"%self.timestamp):
             os.makedirs("images/%s"%self.timestamp)
-        fig.savefig("images/%s/%d.png" % (self.timestamp, epoch), dpi=1000)
+        fig.savefig("images/%s/%d.jpg" % (self.timestamp, epoch), dpi=1000)
         plt.close()
 
     def save_model(self):
