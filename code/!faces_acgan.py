@@ -182,9 +182,9 @@ class ACGAN():
                 self.sample_images(epoch)
 
     def sample_images(self, epoch):
-        r, c = self.num_classes+1, self.num_classes+1
+        r, c = self.num_classes*3, self.num_classes*3
         noise = np.random.normal(0, 1, (r * c, 100))
-        sampled_labels = np.array([num for _ in range(r) for num in range(c)])
+        sampled_labels = np.array([num%self.num_classes for _ in range(r) for num in range(c)])
         gen_imgs = self.generator.predict([noise, sampled_labels])
         # Rescale images 0 - 1
         gen_imgs = 0.5 * gen_imgs + 0.5
