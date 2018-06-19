@@ -192,7 +192,7 @@ class ACGAN():
         # Rescale images 0 - 1
         gen_imgs = (0.5) * gen_imgs + 0.5
 
-        fig, axs = plt.subplots(r, c)
+        fig, axs = plt.subplots(r, c, figsize=(100,100))
         cnt = 0
         for i in range(r):
             for j in range(c):
@@ -200,11 +200,11 @@ class ACGAN():
                 cnt += 1
                 if i == 0:
                     axs[i,j].set_title(j%self.num_classes)
-                    axs[i,j].set_yticklabels([])
-                    axs[i,j].set_xticklabels([])
-                else:
-                    axs[i,j].axis('off')
-        # fig.tight_layout()
+                axs[i,j].set_yticklabels([])
+                axs[i,j].set_xticklabels([])
+                # else:
+                #     axs[i,j].axis('off')
+        fig.tight_layout()
         if not os.path.exists("images/%s"%self.timestamp):
             os.makedirs("images/%s"%self.timestamp)
         fig.savefig("images/%s/%d.png" % (self.timestamp, epoch))
