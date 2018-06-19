@@ -159,7 +159,7 @@ class ACGAN():
 
             # Image labels. 0-9 if image is valid or 10 if it is generated (fake)
             img_labels = y_train[idx]
-            fake_labels = 10 * np.ones(img_labels.shape)
+            fake_labels = 2 * np.ones(img_labels.shape)
 
             # Train the discriminator
             d_loss_real = self.discriminator.train_on_batch(imgs, [valid, img_labels])
