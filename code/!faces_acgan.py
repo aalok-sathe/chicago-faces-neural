@@ -199,7 +199,7 @@ class ACGAN():
                 axs[i,j].imshow(gen_imgs[cnt,:,:,0], cmap='gray')
                 cnt += 1
                 if i == 0:
-                    axs.set_title(j)
+                    axs[i,j].set_title(j)
                 else:
                     axs[i,j].axis('off')
         fig.tight_layout()
