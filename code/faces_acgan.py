@@ -208,7 +208,7 @@ class ACGAN():
         cnt = 0
         for i in range(r):
             for j in range(c):
-                axs[i,j].imshow(gen_imgs[cnt,:,:,0], extent=[0,100,0,1], aspect='100', cmap='gray')
+                axs[i,j].imshow(gen_imgs[cnt,:,:,:], extent=[0,100,0,1], aspect='100', cmap='gray')
                 cnt += 1
                 if i == 0:
                     axs[i,j].set_title(j%self.num_classes)
