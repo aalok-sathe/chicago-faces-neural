@@ -200,8 +200,8 @@ class ACGAN():
                 cnt += 1
                 if i == 0:
                     axs[i,j].set_title(j%self.num_classes)
-                    axs.set_yticklabels([])
-                    axs.set_xticklabels([])
+                    axs[i,j].set_yticklabels([])
+                    axs[i,j].set_xticklabels([])
                 else:
                     axs[i,j].axis('off')
         fig.tight_layout()
