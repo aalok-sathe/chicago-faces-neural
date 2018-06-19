@@ -129,6 +129,7 @@ class ACGAN():
         X_train = (X_train.astype(np.float32) - 127.5) / 127.5
         X_train = np.expand_dims(X_train, axis=3)
         y_train = y_train.reshape(-1, 1)
+        X_train = X_train.reshape(y_train.shape[0],28,28)
 
         print(X_train.shape, y_train.shape)
 
