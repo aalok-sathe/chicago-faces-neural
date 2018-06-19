@@ -159,7 +159,7 @@ class face_provider:
             entry = dict(zip(['rac', 'gen', 'emo', 'id'], item.split()))
             # print(item, entry)
             returnable[0][0] = np.append(returnable[0][0], [self.get_face(**entry, grayscale=grayscale)])
-            returnable[0][1] = np.append(returnable[0][1], [Gender[entry[1]].value])
+            returnable[0][1] = np.append(returnable[0][1], [Gender[entry['gen']].value])
             # np.array([
             #     Race[entry[0]].value,
             #     Gender[entry[1]].value,
@@ -169,7 +169,7 @@ class face_provider:
             entry = dict(zip(['rac', 'gen', 'emo', 'id'], item.split()))
             # print(entry)
             returnable[1][0] = np.append(returnable[1][0], [self.get_face(**entry, grayscale=grayscale)])
-            returnable[1][1] = np.append(returnable[1][1], [Gender[entry[1]].value])
+            returnable[1][1] = np.append(returnable[1][1], [Gender[entry['gen']].value])
             # np.array([
             #     Race[entry[0]].value,
             #     Gender[entry[1]].value,
