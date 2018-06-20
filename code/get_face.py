@@ -138,7 +138,8 @@ class face_provider:
         # img = pickle.load(open(self.images[rac][gen][emo][id]), 'rb') # WIP
         img = self.resize(rac, gen, emo, id, resize=resize)
         if grayscale:
-            img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+            cv2.cvtColor(img, img, cv2.COLOR_BGR2GRAY)
+            print(img.shape)
         return img
 
     def list_faces(self, rac=None, gen=None, emo=None):
@@ -174,7 +175,6 @@ class face_provider:
         print("\nPreparing train set using", train_proportion, "of data")
         for item in progressbar(train_set, redirect_stdout=True):
             entry = dict(zip(['rac', 'gen', 'emo', 'id'], item.split()))
-            # print(item, entry)
             returnable[0][0] = np.append(returnable[0][0], [self.get_face(**entry, grayscale=grayscale, resize=resize)])
             returnable[0][1] = np.append(returnable[0][1], [Gender[entry['gen']].value])
             # np.array([
@@ -185,7 +185,6 @@ class face_provider:
         print("\nPreparing test set using", 1-train_proportion, "of data")
         for item in progressbar(test_set, redirect_stdout=True):
             entry = dict(zip(['rac', 'gen', 'emo', 'id'], item.split()))
-            # print(entry)
             returnable[1][0] = np.append(returnable[1][0], [self.get_face(**entry, grayscale=grayscale, resize=resize)])
             returnable[1][1] = np.append(returnable[1][1], [Gender[entry['gen']].value])
             # np.array([
