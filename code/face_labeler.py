@@ -94,8 +94,8 @@ class ACGAN():
         X_train = np.expand_dims(X_train, axis=3)
         X_test = np.expand_dims(X_test, axis=3)
 
-        y_train = y_train.reshape(-1, 1)
-        y_test = y_test.reshape(-1, 1)
+        y_train = y_train.reshape(-1, 3, 1)
+        y_test = y_test.reshape(-1, 3, 1)
 
         X_train = X_train.reshape(y_train.shape[0],self.img_rows,self.img_cols,self.channels)
         X_test = X_test.reshape(y_test.shape[0],self.img_rows,self.img_cols,self.channels)
