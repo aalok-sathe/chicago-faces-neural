@@ -147,7 +147,7 @@ class ACGAN():
             # d_loss = 0.5 * np.add(d_loss_real, d_loss_fake)
 
             # Plot the progress
-            print ("%d [D loss: %f, acc.: %.2f%%, op_acc: %.2f%%] [G loss: %f]" % (epoch, d_loss[0], 100*d_loss[3], 100*d_loss[4], 0.0))
+            print ("%d [D loss: %f, acc.: %.2f%%, op_acc: %.2f%%]" % (epoch, d_loss[0], 100*d_loss[3], 100*d_loss[4]))
 
             # If at save interval => save generated image samples
             runtime_params = dict()
@@ -192,4 +192,4 @@ class ACGAN():
 
 if __name__ == '__main__':
     acgan = ACGAN()
-    acgan.train(epochs=792, batch_size=8, sample_interval=10)
+    acgan.train(epochs=10000, batch_size=32, sample_interval=10)
