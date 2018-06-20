@@ -157,7 +157,7 @@ class ACGAN():
                     sample_interval = runtime_params.get("sample_every",
                                                           sample_interval)
 
-            if epoch % sample_interval == 0:
+            # if epoch % sample_interval == 0:
                 # self.save_model()
                 # self.sample_images(epoch=epoch,
                 #                     cmap=runtime_params.get("cmap", "gray"))
