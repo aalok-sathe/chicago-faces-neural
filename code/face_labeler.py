@@ -121,8 +121,8 @@ class ACGAN():
             fake_labels = 0 * np.ones(img_labels.shape)
 
             # Train the discriminator
-            d_loss_real = self.discriminator.train_on_batch(imgs, [valid, *img_labels])
-            d_loss_fake = self.discriminator.train_on_batch(gen_imgs, [fake, *fake_labels])
+            d_loss_real = self.discriminator.train_on_batch(imgs, *zip(valid, *img_labels))
+            d_loss_fake = self.discriminator.train_on_batch(gen_imgs, [zip(fake, *fake_labels)])
             d_loss = 0.5 * np.add(d_loss_real, d_loss_fake)
 
             # Plot the progress
@@ -143,7 +143,7 @@ class ACGAN():
             if epoch >= runtime_params.get("num_epochs", epochs):
                 break
 
-        print(self.discriminator.evaluate(X_test[:], [np.ones((y_test.shape[0], 1)), *y_test[:]]))
+        print(self.discriminator.evaluate(X_test[:], *zip(np.ones((y_test.shape[0], 1)), *y_test[:])))
 
     def save_model(self):
 
