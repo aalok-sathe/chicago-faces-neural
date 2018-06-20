@@ -1,5 +1,5 @@
 {
     "num_epochs": 792,
     "sample_every": 25,
-    "cmap" : "hsv"
+    "cmap" : "gray"
 }
