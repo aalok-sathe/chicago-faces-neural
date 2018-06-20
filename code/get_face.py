@@ -138,7 +138,7 @@ class face_provider:
         # img = pickle.load(open(self.images[rac][gen][emo][id]), 'rb') # WIP
         img = self.resize(rac, gen, emo, id, resize=resize)
         if grayscale:
-            cv2.cvtColor(img, img, cv2.COLOR_BGR2GRAY)
+            img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
             print(img.shape)
         else:
             print(grayscale)
