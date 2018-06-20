@@ -87,7 +87,7 @@ class ACGAN():
 
         return Model(img, [race, gender, emotion])
 
-    def train(self, epochs, batch_size=128, sample_interval=50):
+    def train(self, epochs=100, batch_size=128, sample_interval=50):
 
         # Load the dataset
         (X_train, y_train), (X_test, y_test) = self.face_db.load_data(grayscale=(self.channels==1), resize=(32,32), train_proportion=.8)
@@ -115,7 +115,7 @@ class ACGAN():
               np.array([y_train])[:,:,1,:][0],
               np.array([y_train])[:,:,2,:][0],
             ],
-            batch_size=32,
+            batch_size=batch_size,
             epochs=epochs,
             verbose=1
         )
@@ -210,4 +210,4 @@ class ACGAN():
 
 if __name__ == '__main__':
     acgan = ACGAN()
-    acgan.train(epochs=2048, batch_size=32, sample_interval=10)
+    acgan.train(epochs=1024, batch_size=32, sample_interval=10)
