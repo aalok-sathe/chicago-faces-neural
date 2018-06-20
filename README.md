@@ -23,21 +23,26 @@ training script: in grayscale (single channel) and reduced to 100x100.
 ```bash
 .
 ├── code
+│   ├── cp_imgs.sh
+│   ├── face_labeler.py
 │   ├── faces_acgan.py
 │   ├── get_face.py
-│   └── pickled
-│       ├── image_containers.pickle
-│       ├── images.pickle
-│       └── indexed_faces.pickle
+│   ├── images [not opening dir]
+│   ├── pickled
+│   │   ├── image_containers.pickle
+│   │   ├── images.pickle
+│   │   └── indexed_faces.pickle
+│   ├── runtime.kerasconfig
+│   └── saved_model [not opening dir]
 ├── data
-│   ├── cfd2.0.3
-│   │   ├── CFD 2.0.3 Norming Data and Codebook.ods
-│   │   ├── CFD 2.0.3 Read Me.pdf
-│   │   ├── data.csv
-│   │   └── images [597 entries exceeds filelimit, not opening dir]
-│   └── processed_dump [1207 entries exceeds filelimit, not opening dir]
+│   └── cfd2.0.3
+│       ├── CFD 2.0.3 Norming Data and Codebook.ods
+│       ├── CFD 2.0.3 Read Me.pdf
+│       ├── data.csv
+│       └── images [597 entries exceeds filelimit, not opening dir]
 ├── LICENSE
-└── README.md
+├── README.md
+└── readme.pdf
 ```
 
 Note: `<path>/images/` contains the raw images, obtained as-are, with the same
