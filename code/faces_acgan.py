@@ -20,8 +20,8 @@ import get_face
 class ACGAN():
     def __init__(self):
         # Input shape
-        self.img_rows = 100
-        self.img_cols = 100
+        self.img_rows = 32
+        self.img_cols = 32
         self.channels = 3
         self.img_shape = (self.img_rows, self.img_cols, self.channels)
         self.num_classes = 2
@@ -65,8 +65,8 @@ class ACGAN():
 
         model = Sequential()
 
-        model.add(Dense(128 * 25 * 25, activation="relu", input_dim=self.latent_dim))
-        model.add(Reshape((25, 25, 128)))
+        model.add(Dense(128 * (self.img_rows/4) * (self.img_cols/4), activation="relu", input_dim=self.latent_dim))
+        model.add(Reshape(((self.img_rows/4), (self.img_cols/4), 128)))
         model.add(BatchNormalization(momentum=0.8))
         model.add(UpSampling2D())
         model.add(Conv2D(128, kernel_size=4, padding="same"))
@@ -84,7 +84,7 @@ class ACGAN():
         noise = Input(shape=(self.latent_dim,))
         # noise = Reshape((-1,1))(noise)
         label = Input(shape=(1,), dtype='int32')
-        label_embedding = Flatten()(Embedding(self.num_classes+1, 100)(label))
+        label_embedding = Flatten()(Embedding(self.num_classes+1, 10*self.num_classes+1)(label))
 
         model_input = multiply([noise, label_embedding])
         img = model(model_input)
@@ -128,7 +128,7 @@ class ACGAN():
     def train(self, epochs, batch_size=128, sample_interval=50):
 
         # Load the dataset
-        (X_train, y_train), (_, _) = self.face_db.load_data(grayscale=False)
+        (X_train, y_train), (_, _) = self.face_db.load_data(grayscale=False, resize=(32,32))
 
         # Configure inputs
         # X_train = (X_train.astype(np.float32) - 127.5) / 127.5
@@ -219,7 +219,7 @@ class ACGAN():
         fig.tight_layout()
         if not os.path.exists("images/%s"%self.timestamp):
             os.makedirs("images/%s"%self.timestamp)
-        fig.savefig("images/%s/%d.jpg" % (self.timestamp, epoch), dpi=100)
+        fig.savefig("images/%s/%d.jpg" % (self.timestamp, epoch), dpi=128)
         plt.close()
 
     def save_model(self):
