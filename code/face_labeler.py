@@ -23,7 +23,7 @@ class ACGAN():
         # Input shape
         self.img_rows = 32
         self.img_cols = 32
-        self.channels = 1
+        self.channels = 3
         self.img_shape = (self.img_rows, self.img_cols, self.channels)
 
         self.num_genders = 2
@@ -38,10 +38,11 @@ class ACGAN():
         self.face_db.load_from_pickle()
 
         optimizer = Adam(0.0002, 0.5)
-        losses = ['binary_crossentropy',
+        losses = [#'binary_crossentropy',
                     'sparse_categorical_crossentropy',
                     'sparse_categorical_crossentropy',
-                    'sparse_categorical_crossentropy']
+                    'sparse_categorical_crossentropy'
+                 ]
 
         # Build and compile the discriminator
         self.discriminator = self.build_discriminator()
@@ -58,6 +59,7 @@ class ACGAN():
         model.add(Conv2D(16, kernel_size=3, strides=2, input_shape=self.img_shape, padding="same"))
         model.add(LeakyReLU(alpha=0.2))
         model.add(Dropout(0.25))
+        model.add(Dense(32))
         model.add(Conv2D(32, kernel_size=4, strides=2, padding="same"))
         model.add(ZeroPadding2D(padding=((0,1),(0,1))))
         model.add(LeakyReLU(alpha=0.2))
@@ -76,14 +78,14 @@ class ACGAN():
         features = model(img)
 
         # Determine validity and label of the image
-        validity = Dense(1, activation="sigmoid")(features)
+        # validity = Dense(1, activation="sigmoid")(features)
         gender = Dense(self.num_genders+1, activation="softmax")(features)
         race = Dense(self.num_races+1, activation="softmax")(features)
         emotion = Dense(self.num_emotions+1, activation="softmax")(features)
 
         model.summary()
 
-        return Model(img, [validity, race, gender, emotion])
+        return Model(img, [race, gender, emotion])
 
     def train(self, epochs, batch_size=128, sample_interval=50):
 
@@ -104,8 +106,8 @@ class ACGAN():
         print(X_train.shape, y_train.shape, '\n', X_test.shape, y_test.shape)
 
         # Adversarial ground truths
-        valid = np.ones((batch_size, 1))
-        fake = np.zeros((batch_size, 1))
+        # valid = np.ones((batch_size, 1))
+        # fake = np.zeros((batch_size, 1))
 
         for epoch in progressbar(range(epochs), redirect_stdout=True):
 
@@ -119,7 +121,7 @@ class ACGAN():
 
             # Image labels. 0-1 if image is valid or 2 if it is generated (fake)
             img_labels = y_train[idx]
-            fake_labels = 0 * np.ones(img_labels.shape)
+            # fake_labels = 0 * np.ones(img_labels.shape)
 
             # print(np.array([np.array([a,*b]) for (a,b) in [*zip(valid, img_labels)]]))
             # print(np.array([img_labels]))
@@ -168,7 +170,7 @@ class ACGAN():
         print(self.discriminator.evaluate(
         X_test[:],
                 [
-                  valid,
+                  # valid,
                   np.array([y_test[:]])[:,:,0,:][0],
                   np.array([y_test[:]])[:,:,1,:][0],
                   np.array([y_test[:]])[:,:,2,:][0],
