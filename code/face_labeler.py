@@ -79,9 +79,9 @@ class ACGAN():
 
         # Determine validity and label of the image
         # validity = Dense(1, activation="sigmoid")(features)
-        gender = Dense(self.num_genders+1, activation="softmax")(features)
-        race = Dense(self.num_races+1, activation="softmax")(features)
-        emotion = Dense(self.num_emotions+1, activation="softmax")(features)
+        race = Dense(self.num_races+1, activation="softmax", name="race")(features)
+        gender = Dense(self.num_genders+1, activation="softmax", name="Gender")(features)
+        emotion = Dense(self.num_emotions+1, activation="softmax", name="emotion")(features)
 
         model.summary()
 
