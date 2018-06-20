@@ -182,9 +182,9 @@ class face_provider:
             returnable[0][1] = np.append(returnable[0][1],
              # [Gender[entry['gen']].value])
              np.array([
-                [Race[entry['rac']].value],
-                [Gender[entry['gen']].value],
-                [Emotion[entry['emo']].value],
+                [Race[entry['rac']].value,
+                Gender[entry['gen']].value,
+                Emotion[entry['emo']].value],
              ], dtype=np.uint8))
         print("\nPreparing test set using", 1-train_proportion, "of data")
         for item in progressbar(test_set, redirect_stdout=True):
@@ -193,9 +193,9 @@ class face_provider:
             returnable[1][1] = np.append(returnable[1][1],
              # [Gender[entry['gen']].value])
              np.array([
-                [Race[entry['rac']].value],
-                [Gender[entry['gen']].value],
-                [Emotion[entry['emo']].value],
+                [Race[entry['rac']].value,
+                Gender[entry['gen']].value,
+                Emotion[entry['emo']].value],
              ], dtype=np.uint8))
 
         return returnable
