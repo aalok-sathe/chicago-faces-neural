@@ -104,7 +104,7 @@ class face_provider:
                 # Crop to a square according to lowest of width or height
                 self.images[rac][gen][emo][id] = self.crop_square(rac=rac, gen=gen, emo=emo, id=id)
                 # Resize
-                self.images[rac][gen][emo][id] = self.resize(rac=rac, gen=gen, emo=emo, id=id, resize=(32))
+                self.images[rac][gen][emo][id] = self.resize(rac=rac, gen=gen, emo=emo, id=id, resize=(32,32))
                 # Add unique identifier to a set for later iteration
                 self.indexed_faces.add(rac+' '+gen+' '+emo+' '+id)
                 # Export processed image to directory, if needed elsewhere
@@ -128,7 +128,7 @@ class face_provider:
         """Resize image to supplied dimensions"""
         img = self.images[rac][gen][emo][id]
         if resize!=img.shape:
-            return cv2.resize(img, dim=resize, interpolation = cv2.INTER_AREA)
+            return cv2.resize(img, resize, interpolation = cv2.INTER_AREA)
         else:
             return img
         # self.images[rac][gen][emo][id] = img
