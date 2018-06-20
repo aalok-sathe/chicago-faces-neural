@@ -26,24 +26,24 @@ def supply_dict(key = 'genders',
         ])
 
 class Race(enum.Enum):
-    A = 0
-    B = 1
-    L = 2
-    W = 3
-    UNK = 4
+    A = 1
+    B = 2
+    L = 3
+    W = 4
+    UNK = 0
 
 class Gender(enum.Enum):
-    F = 0
-    M = 1
-    UNK = 2
+    F = 1
+    M = 2
+    UNK = 0
 
 class Emotion(enum.Enum):
-    A = 0
-    F = 1
-    HC = 2
-    HO = 3
-    N = 4
-    UNK = 5
+    A = 1
+    F = 2
+    HC = 3
+    HO = 4
+    N = 5
+    UNK = 0
 
 class face_provider:
 
@@ -179,22 +179,24 @@ class face_provider:
         for item in progressbar(train_set, redirect_stdout=True):
             entry = dict(zip(['rac', 'gen', 'emo', 'id'], item.split()))
             returnable[0][0] = np.append(returnable[0][0], [self.get_face(**entry, grayscale=grayscale, resize=resize)])
-            returnable[0][1] = np.append(returnable[0][1], [Gender[entry['gen']].value])
-            # np.array([
-            #     Race[entry[0]].value,
-            #     Gender[entry[1]].value,
-            #     Emotion[entry[2]].value,
-            # ], dtype=np.uint8))
+            returnable[0][1] = np.append(returnable[0][1],
+             # [Gender[entry['gen']].value])
+             np.array([
+                Race[entry['rac']].value,
+                Gender[entry['gen']].value,
+                Emotion[entry['emo']].value,
+             ], dtype=np.uint8))
         print("\nPreparing test set using", 1-train_proportion, "of data")
         for item in progressbar(test_set, redirect_stdout=True):
             entry = dict(zip(['rac', 'gen', 'emo', 'id'], item.split()))
             returnable[1][0] = np.append(returnable[1][0], [self.get_face(**entry, grayscale=grayscale, resize=resize)])
-            returnable[1][1] = np.append(returnable[1][1], [Gender[entry['gen']].value])
-            # np.array([
-            #     Race[entry[0]].value,
-            #     Gender[entry[1]].value,
-            #     Emotion[entry[2]].value,
-            # ], dtype=np.uint8))
+            returnable[1][1] = np.append(returnable[1][1],
+             # [Gender[entry['gen']].value])
+             np.array([
+                Race[entry['rac']].value,
+                Gender[entry['gen']].value,
+                Emotion[entry['emo']].value,
+             ], dtype=np.uint8))
 
         return returnable
 
