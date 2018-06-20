@@ -122,11 +122,11 @@ class ACGAN():
 
             # print(np.array([np.array([a,*b]) for (a,b) in [*zip(valid, img_labels)]]))
             # print(np.array([img_labels]))
-            print(np.array([valid,
-              np.array([img_labels])[:,:,0,][0],
-              np.array([img_labels])[:,:,1,][0],
-              np.array([img_labels])[:,:,2,][0]
-            ]))
+            # print(np.array([valid,
+            #   np.array([img_labels])[:,:,0,][0],
+            #   np.array([img_labels])[:,:,1,][0],
+            #   np.array([img_labels])[:,:,2,][0]
+            # ]))
 
             # Train the discriminator
             d_loss = self.discriminator.train_on_batch(imgs,
