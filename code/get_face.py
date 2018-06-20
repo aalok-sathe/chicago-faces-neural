@@ -174,7 +174,7 @@ class face_provider:
         for item in progressbar(train_set, redirect_stdout=True):
             entry = dict(zip(['rac', 'gen', 'emo', 'id'], item.split()))
             # print(item, entry)
-            returnable[0][0] = np.append(returnable[0][0], [self.get_face(**entry, grayscale=grayscale, resize=(28,28))])
+            returnable[0][0] = np.append(returnable[0][0], [self.get_face(**entry, grayscale=grayscale, resize=resize)])
             returnable[0][1] = np.append(returnable[0][1], [Gender[entry['gen']].value])
             # np.array([
             #     Race[entry[0]].value,
@@ -184,7 +184,7 @@ class face_provider:
         for item in progressbar(test_set, redirect_stdout=True):
             entry = dict(zip(['rac', 'gen', 'emo', 'id'], item.split()))
             # print(entry)
-            returnable[1][0] = np.append(returnable[1][0], [self.get_face(**entry, grayscale=grayscale, resize=(28,28))])
+            returnable[1][0] = np.append(returnable[1][0], [self.get_face(**entry, grayscale=grayscale, resize=resize)])
             returnable[1][1] = np.append(returnable[1][1], [Gender[entry['gen']].value])
             # np.array([
             #     Race[entry[0]].value,
