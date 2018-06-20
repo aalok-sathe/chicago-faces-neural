@@ -23,7 +23,7 @@ class ACGAN():
         # Input shape
         self.img_rows = 32
         self.img_cols = 32
-        self.channels = 3
+        self.channels = 1
         self.img_shape = (self.img_rows, self.img_cols, self.channels)
 
         self.num_genders = 2
@@ -90,7 +90,7 @@ class ACGAN():
     def train(self, epochs, batch_size=128, sample_interval=50):
 
         # Load the dataset
-        (X_train, y_train), (X_test, y_test) = self.face_db.load_data(grayscale=(self.channels==1), resize=(32,32))
+        (X_train, y_train), (X_test, y_test) = self.face_db.load_data(grayscale=(self.channels==1), resize=(32,32), train_proportion=.8)
 
         # Configure inputs
         # X_train = (X_train.astype(np.float32) - 127.5) / 127.5
@@ -150,7 +150,8 @@ class ACGAN():
             # d_loss = 0.5 * np.add(d_loss_real, d_loss_fake)
 
             # Plot the progress
-            print ("%d [D loss: %f, acc.: %.2f%%, op_acc: %.2f%%]" % (epoch, d_loss[0], 100*d_loss[3], 100*d_loss[4]))
+            print(d_loss)
+            # print ("%d [D loss: %f, acc.: %.2f%%, op_acc: %.2f%%]" % (epoch, d_loss[0], 100*d_loss[3], 100*d_loss[4]))
 
             # If at save interval => save generated image samples
             runtime_params = dict()
