@@ -120,7 +120,7 @@ class ACGAN():
             img_labels = y_train[idx]
             fake_labels = 0 * np.ones(img_labels.shape)
 
-            print(*zip(valid, img_labels))
+            print(*zip(valid, *img_labels))
 
             # Train the discriminator
             d_loss_real = self.discriminator.train_on_batch(imgs, *zip(valid, *img_labels))
