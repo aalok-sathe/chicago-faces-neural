@@ -102,13 +102,13 @@ class face_provider:
                 # Store image in a central dict
                 self.images[rac][gen][emo][id] = cv2.imread(os.path.join(os.path.abspath(path), container_name, filename))
                 # Crop to a square according to lowest of width or height
-                self.images[rac][gen][emo][id] = self.crop_square(rac, gen, emo, id)
-                # Resize to 100x100
-                # self.images[rac][gen][emo][id] = self.resize(rac, gen, emo, id, (100,100))
+                self.images[rac][gen][emo][id] = self.crop_square(rac=rac, gen=gen, emo=emo, id=id)
+                # Resize
+                self.images[rac][gen][emo][id] = self.resize(rac=rac, gen=gen, emo=emo, id=id, resize=(32))
                 # Add unique identifier to a set for later iteration
                 self.indexed_faces.add(rac+' '+gen+' '+emo+' '+id)
                 # Export processed image to directory, if needed elsewhere
-                cv2.imwrite("../data/processed_dump/%s"%filename, self.images[rac][gen][emo][id])
+                # cv2.imwrite("../data/processed_dump/%s"%filename, self.images[rac][gen][emo][id])
 
     def crop_square(self, rac='W', gen='F', emo='HC', id='022'):
         """Crop image to a square with dimension that is lowest
@@ -136,9 +136,10 @@ class face_provider:
     def get_face(self, grayscale=True, rac='W', gen='F', emo='HC', id='022',
                   resize=(28,28)):
         """Return a singular face image object from DB"""
+        # img = pickle.load(open(self.images[rac][gen][emo][id]), 'rb') # WIP
         img = self.resize(rac, gen, emo, id, resize=resize)
         if grayscale:
-            img cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+            img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
         return self.images[rac][gen][emo][id]
 
     def list_faces(self, rac=None, gen=None, emo=None):
@@ -200,3 +201,4 @@ if __name__ == '__main__':
     fp.dump_to_pickle()
 
     print(fp.list_faces('W','F','HC'))
+'F','HC'))
