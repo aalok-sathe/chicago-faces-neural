@@ -128,7 +128,7 @@ class face_provider:
         """Resize image to supplied dimensions"""
         img = self.images[rac][gen][emo][id]
         if resize!=img.shape:
-            return cv2.resize(img, resize, interpolation = cv2.INTER_AREA)
+            return cv2.resize(img, dim=resize, interpolation = cv2.INTER_AREA)
         else:
             return img
         # self.images[rac][gen][emo][id] = img
