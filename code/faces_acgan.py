@@ -22,7 +22,7 @@ class ACGAN():
         # Input shape
         self.img_rows = 32
         self.img_cols = 32
-        self.channels = 3
+        self.channels = 1
         self.img_shape = (self.img_rows, self.img_cols, self.channels)
         self.num_classes = 2
         self.latent_dim = 100
@@ -71,6 +71,7 @@ class ACGAN():
         model.add(UpSampling2D())
         model.add(Conv2D(128, kernel_size=4, padding="same"))
         model.add(Activation("relu"))
+        model.add(Dropout(0.25)) # !!
         model.add(BatchNormalization(momentum=0.8))
         model.add(UpSampling2D())
         model.add(Conv2D(64, kernel_size=4, padding="same"))
@@ -98,16 +99,16 @@ class ACGAN():
         model.add(Conv2D(16, kernel_size=3, strides=2, input_shape=self.img_shape, padding="same"))
         model.add(LeakyReLU(alpha=0.2))
         model.add(Dropout(0.25))
-        model.add(Conv2D(32, kernel_size=3, strides=2, padding="same"))
+        model.add(Conv2D(32, kernel_size=4, strides=2, padding="same"))
         model.add(ZeroPadding2D(padding=((0,1),(0,1))))
         model.add(LeakyReLU(alpha=0.2))
         model.add(Dropout(0.25))
         model.add(BatchNormalization(momentum=0.8))
-        model.add(Conv2D(64, kernel_size=3, strides=2, padding="same"))
+        model.add(Conv2D(64, kernel_size=4, strides=2, padding="same"))
         model.add(LeakyReLU(alpha=0.2))
         model.add(Dropout(0.25))
         model.add(BatchNormalization(momentum=0.8))
-        model.add(Conv2D(128, kernel_size=3, strides=1, padding="same"))
+        model.add(Conv2D(128, kernel_size=4, strides=1, padding="same"))
         model.add(LeakyReLU(alpha=0.2))
         model.add(Dropout(0.25))
 
@@ -128,7 +129,7 @@ class ACGAN():
     def train(self, epochs, batch_size=128, sample_interval=50):
 
         # Load the dataset
-        (X_train, y_train), (_, _) = self.face_db.load_data(grayscale=False, resize=(32,32))
+        (X_train, y_train), (_, _) = self.face_db.load_data(grayscale=(self.channels==1)), resize=(32,32))
 
         # Configure inputs
         # X_train = (X_train.astype(np.float32) - 127.5) / 127.5
