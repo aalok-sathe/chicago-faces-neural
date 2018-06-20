@@ -41,6 +41,19 @@ pre-processed image matrices which can be used on-the-go for training.
         * disk output: saves model once finished training as 
           `saved_model/labeler<timestamp>.{json,h5}`.
 
+### Examples
+
+#### Discriminator
+
+What follows is the output from one particular run of the discriminator.
+The model was trained on 80% of all data in 100 epochs with a batch size of 16.
+The model was evaluated on the remaining 20% of the data and produced
+the results that follow. [As of commit 2b5bac].
+
+| net loss            | `race' loss         | `gender' loss        | `emotion' loss      | `race' accuracy     | `gender' accuracy   |  `emotion' accuracy |
+|---------------------|---------------------|----------------------|---------------------|---------------------|---------------------|---------------------|
+| 1.1508 | 0.2596 | 0.0855 | 0.8055 | 0.8925 | 0.9669 | 0.7685  |
+
 ### Notes
 
 The files `faces_acgan.py` and `face_labeler.py` are the primary files
