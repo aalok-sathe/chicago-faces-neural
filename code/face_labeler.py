@@ -121,11 +121,11 @@ class ACGAN():
             fake_labels = 0 * np.ones(img_labels.shape)
 
             # print(np.array([np.array([a,*b]) for (a,b) in [*zip(valid, img_labels)]]))
-            print(valid, np.stack([*img_labels], axis=-1))
+            # print([valid, *np.stack([*img_labels], axis=-1)])
 
             # Train the discriminator
-            d_loss_real = self.discriminator.train_on_batch(imgs, np.array([np.array([a,*b]) for (a,b) in [*zip(valid, img_labels)]]))
-            d_loss_fake = self.discriminator.train_on_batch(gen_imgs, np.array([np.array([a,*b]) for (a,b) in [*zip(fake, fake_labels)]]))
+            d_loss_real = self.discriminator.train_on_batch(imgs, np.array([valid, *np.stack([*img_labels], axis=-1)]))
+            d_loss_fake = self.discriminator.train_on_batch(gen_imgs, np.array([fake, *np.stack([*fake_labels], axis=-1)]))
             d_loss = 0.5 * np.add(d_loss_real, d_loss_fake)
 
             # Plot the progress
