@@ -109,7 +109,19 @@ class ACGAN():
         # valid = np.ones((batch_size, 1))
         # fake = np.zeros((batch_size, 1))
 
-        for epoch in progressbar(range(epochs), redirect_stdout=True):
+        H = self.discriminator.fit(x=X_train,
+            y = [
+              np.array([y_train])[:,:,0,:][0],
+              np.array([y_train])[:,:,1,:][0],
+              np.array([y_train])[:,:,2,:][0],
+            ],
+            batch_size=32,
+            epochs=epochs,
+            verbose=1
+        )
+
+        # DEPRECATED
+        for epoch in progressbar(range(0*epochs), redirect_stdout=True):
 
             # ---------------------
             #  Train Discriminator
@@ -168,9 +180,11 @@ class ACGAN():
             if epoch >= runtime_params.get("num_epochs", epochs):
                 break
 
+        # #################
+
         print(self.discriminator.evaluate(
-        X_test[:],
-                [
+            x=X_test[:],
+            y=[
                   # valid,
                   np.array([y_test[:]])[:,:,0,:][0],
                   np.array([y_test[:]])[:,:,1,:][0],
