@@ -128,7 +128,7 @@ class ACGAN():
     def train(self, epochs, batch_size=128, sample_interval=50):
 
         # Load the dataset
-        (X_train, y_train), (_, _) = self.face_db.load_data(grayscale=(self.channels==1), resize=(32,32))
+        (X_train, y_train), (X_test, y_test) = self.face_db.load_data(grayscale=(self.channels==1), resize=(32,32))
 
         # Configure inputs
         # X_train = (X_train.astype(np.float32) - 127.5) / 127.5
