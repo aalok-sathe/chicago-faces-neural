@@ -133,7 +133,7 @@ class ACGAN():
         # Configure inputs
         # X_train = (X_train.astype(np.float32) - 127.5) / 127.5
         X_train = np.expand_dims(X_train, axis=3)
-        y_train = y_train.reshape(-1, 3, 1)
+        y_train = y_train.reshape(-1, 1, 3)
         X_train = X_train.reshape(y_train.shape[0],self.img_rows,self.img_cols,self.channels)
 
         print(X_train.shape, y_train.shape)
