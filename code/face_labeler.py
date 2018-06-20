@@ -153,8 +153,8 @@ class ACGAN():
             open(options['file_arch'], 'w').write(json_string)
             model.save_weights(options['file_weight'])
 
-        save(self.generator, "generator%s"%self.timestamp)
-        # save(self.discriminator, "discriminator%s"%self.timestamp)
+        # save(self.generator, "generator%s"%self.timestamp)
+        save(self.discriminator, "labeler%s"%self.timestamp)
 
 
 if __name__ == '__main__':
