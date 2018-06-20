@@ -164,7 +164,16 @@ class ACGAN():
             if epoch >= runtime_params.get("num_epochs", epochs):
                 break
 
-        print(self.discriminator.evaluate(X_test[:], *zip(np.ones((y_test.shape[0], 1)), *y_test[:])))
+        print(self.discriminator.evaluate(
+        X_test[:],
+                [
+                  valid,
+                  np.array([y_test[:]])[:,:,0,:][0],
+                  np.array([y_test[:]])[:,:,1,:][0],
+                  np.array([y_test[:]])[:,:,2,:][0],
+                ]
+            )
+        )
 
     def save_model(self):
 
