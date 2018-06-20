@@ -69,9 +69,7 @@ class ACGAN():
         model.add(Conv2D(128, kernel_size=4, strides=1, padding="same"))
         model.add(LeakyReLU(alpha=0.2))
         model.add(Dropout(0.25))
-
         model.add(Flatten())
-        model.summary()
 
         # Extract feature representation
         features = model(img)
@@ -82,7 +80,9 @@ class ACGAN():
         race = Dense(self.num_races+1, activation="softmax")(features)
         emotion = Dense(self.num_emotions+1, activation="softmax")(features)
 
-        return Model(img, [validity, gender, race, emotion])
+        model.summary()
+
+        return Model(img, [validity, race, gender, emotion])
 
     def train(self, epochs, batch_size=128, sample_interval=50):
 
@@ -121,12 +121,30 @@ class ACGAN():
             fake_labels = 0 * np.ones(img_labels.shape)
 
             # print(np.array([np.array([a,*b]) for (a,b) in [*zip(valid, img_labels)]]))
-            print(np.array([valid, *np.stack([*img_labels], axis=-1)]))
+            # print(np.array([img_labels]))
+            print(np.array([valid,
+              np.array([img_labels])[:,:,0,][0],
+              np.array([img_labels])[:,:,1,][0],
+              np.array([img_labels])[:,:,2,][0]
+            ]))
 
             # Train the discriminator
-            d_loss_real = self.discriminator.train_on_batch(imgs, np.array([valid, *np.stack([*img_labels], axis=-1)]))
-            d_loss_fake = self.discriminator.train_on_batch(gen_imgs, np.array([fake, *np.stack([*fake_labels], axis=-1)]))
-            d_loss = 0.5 * np.add(d_loss_real, d_loss_fake)
+            d_loss = self.discriminator.train_on_batch(imgs,
+                [
+                  valid,
+                  np.array([img_labels])[:,:,0,:][0],
+                  np.array([img_labels])[:,:,1,:][0],
+                  np.array([img_labels])[:,:,2,:][0],
+                ]
+            )
+            # d_loss_fake = self.discriminator.train_on_batch(fake,
+            #     [fake,
+            #       np.array([fake_labels])[:,:,0,][:],
+            #       np.array([fake_labels])[:,:,1,][:],
+            #       np.array([fake_labels])[:,:,2,][:]
+            #     ]
+            # )
+            # d_loss = 0.5 * np.add(d_loss_real, d_loss_fake)
 
             # Plot the progress
             print ("%d [D loss: %f, acc.: %.2f%%, op_acc: %.2f%%] [G loss: %f]" % (epoch, d_loss[0], 100*d_loss[3], 100*d_loss[4], 0.0))
@@ -140,9 +158,9 @@ class ACGAN():
                                                           sample_interval)
 
             if epoch % sample_interval == 0:
-                self.save_model()
-                self.sample_images(epoch=epoch,
-                                    cmap=runtime_params.get("cmap", "gray"))
+                # self.save_model()
+                # self.sample_images(epoch=epoch,
+                #                     cmap=runtime_params.get("cmap", "gray"))
             if epoch >= runtime_params.get("num_epochs", epochs):
                 break
 
