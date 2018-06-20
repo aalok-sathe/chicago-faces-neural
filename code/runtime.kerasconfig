@@ -1,4 +1,4 @@
 {
     "num_epochs": 792,
-    "sample_every": 1
+    "sample_every": 20
 }
