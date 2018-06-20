@@ -140,6 +140,8 @@ class face_provider:
         if grayscale:
             cv2.cvtColor(img, img, cv2.COLOR_BGR2GRAY)
             print(img.shape)
+        else:
+            print(grayscale)
         return img
 
     def list_faces(self, rac=None, gen=None, emo=None):
