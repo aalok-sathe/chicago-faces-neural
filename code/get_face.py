@@ -124,16 +124,19 @@ class face_provider:
         # self.images[rac][gen][emo][id] = cropped_img
         return cropped_img
 
-    def resize(self, rac='W', gen='F', emo='HC', id='022', dim=(28,28)):
+    def resize(self, rac='W', gen='F', emo='HC', id='022', resize=(28,28)):
         """Resize image to supplied dimensions"""
         img = self.images[rac][gen][emo][id]
-        return cv2.resize(img, dim, interpolation = cv2.INTER_AREA)
+        if resize!=img.shape:
+            return cv2.resize(img, resize, interpolation = cv2.INTER_AREA)
+        else:
+            return img
         # self.images[rac][gen][emo][id] = img
 
     def get_face(self, grayscale=True, rac='W', gen='F', emo='HC', id='022',
                   resize=(28,28)):
         """Return a singular face image object from DB"""
-        img = self.resize(rac, gen, emo, id, (resize))
+        img = self.resize(rac, gen, emo, id, resize=resize)
         if grayscale:
             img cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
         return self.images[rac][gen][emo][id]
@@ -171,7 +174,7 @@ class face_provider:
         for item in progressbar(train_set, redirect_stdout=True):
             entry = dict(zip(['rac', 'gen', 'emo', 'id'], item.split()))
             # print(item, entry)
-            returnable[0][0] = np.append(returnable[0][0], [self.get_face(**entry, grayscale=grayscale)])
+            returnable[0][0] = np.append(returnable[0][0], [self.get_face(**entry, grayscale=grayscale, resize=(28,28))])
             returnable[0][1] = np.append(returnable[0][1], [Gender[entry['gen']].value])
             # np.array([
             #     Race[entry[0]].value,
@@ -181,7 +184,7 @@ class face_provider:
         for item in progressbar(test_set, redirect_stdout=True):
             entry = dict(zip(['rac', 'gen', 'emo', 'id'], item.split()))
             # print(entry)
-            returnable[1][0] = np.append(returnable[1][0], [self.get_face(**entry, grayscale=grayscale)])
+            returnable[1][0] = np.append(returnable[1][0], [self.get_face(**entry, grayscale=grayscale, resize=(28,28))])
             returnable[1][1] = np.append(returnable[1][1], [Gender[entry['gen']].value])
             # np.array([
             #     Race[entry[0]].value,
@@ -196,4 +199,4 @@ if __name__ == '__main__':
     fp.index_faces()
     fp.dump_to_pickle()
 
-    # print(fp.list_faces('W','F','HC'))
+    print(fp.list_faces('W','F','HC'))
