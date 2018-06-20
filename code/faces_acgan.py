@@ -65,8 +65,8 @@ class ACGAN():
 
         model = Sequential()
 
-        model.add(Dense(128 * (self.img_rows/4) * (self.img_cols/4), activation="relu", input_dim=self.latent_dim))
-        model.add(Reshape(((self.img_rows/4), (self.img_cols/4), 128)))
+        model.add(Dense(128 * (self.img_rows//4) * (self.img_cols//4), activation="relu", input_dim=self.latent_dim))
+        model.add(Reshape(((self.img_rows//4), (self.img_cols//4), 128)))
         model.add(BatchNormalization(momentum=0.8))
         model.add(UpSampling2D())
         model.add(Conv2D(128, kernel_size=4, padding="same"))
