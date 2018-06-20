@@ -134,7 +134,7 @@ class ACGAN():
             # Train the discriminator
             d_loss = self.discriminator.train_on_batch(imgs,
                 [
-                  valid,
+                  # valid,
                   np.array([img_labels])[:,:,0,:][0],
                   np.array([img_labels])[:,:,1,:][0],
                   np.array([img_labels])[:,:,2,:][0],
