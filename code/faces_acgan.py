@@ -134,7 +134,7 @@ class ACGAN():
         # X_train = (X_train.astype(np.float32) - 127.5) / 127.5
         X_train = np.expand_dims(X_train, axis=3)
         y_train = y_train.reshape(-1, 1)
-        X_train = X_train.reshape(y_train.shape[0],self.img_rows,self.img_cols,3)
+        X_train = X_train.reshape(y_train.shape[0],self.img_rows,self.img_cols,self.channels)
 
         print(X_train.shape, y_train.shape)
 
@@ -153,7 +153,7 @@ class ACGAN():
             imgs = X_train[idx]
 
             # Sample noise as generator input
-            noise = np.random.normal(0, np.sqrt(np.e), (batch_size, self.latent_dim))
+            noise = np.random.normal(0, 1, (batch_size, self.latent_dim))
 
             # The labels of the digits that the generator tries to create an
             # image representation of

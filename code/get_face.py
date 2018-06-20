@@ -48,6 +48,9 @@ class Emotion(enum.Enum):
 class face_provider:
 
     data_path = '../data/cfd2.0.3/images'
+    races = {'A', 'B', 'L', 'W'}
+    genders = {'F', 'M'}
+    emotions = {'A', 'F', 'HC', 'HO', 'N'}
 
     def __init__(self, path=data_path):
         self.image_containers = os.listdir(os.path.abspath(path))
@@ -99,9 +102,9 @@ class face_provider:
                 # Store image in a central dict
                 self.images[rac][gen][emo][id] = cv2.imread(os.path.join(os.path.abspath(path), container_name, filename))
                 # Crop to a square according to lowest of width or height
-                self.crop_square(rac, gen, emo, id)
+                self.images[rac][gen][emo][id] = self.crop_square(rac, gen, emo, id)
                 # Resize to 100x100
-                self.resize(rac, gen, emo, id, (100,100))
+                # self.images[rac][gen][emo][id] = self.resize(rac, gen, emo, id, (100,100))
                 # Add unique identifier to a set for later iteration
                 self.indexed_faces.add(rac+' '+gen+' '+emo+' '+id)
                 # Export processed image to directory, if needed elsewhere
@@ -118,28 +121,38 @@ class face_provider:
         # print(h,w,d)
         cropped_img = img[int((h>w)*d):int(h-(h>w)*d),
                           int((w>h)*d):int(w-(w>h)*d)]
-        self.images[rac][gen][emo][id] = cropped_img
-        # return cropped_img
+        # self.images[rac][gen][emo][id] = cropped_img
+        return cropped_img
 
-    def resize(self, rac='W', gen='F', emo='HC', id='022', dim=(100,100)):
+    def resize(self, rac='W', gen='F', emo='HC', id='022', dim=(28,28)):
         """Resize image to supplied dimensions"""
         img = self.images[rac][gen][emo][id]
-        img = cv2.resize(img, dim, interpolation = cv2.INTER_AREA)
-        self.images[rac][gen][emo][id] = img
+        return cv2.resize(img, dim, interpolation = cv2.INTER_AREA)
+        # self.images[rac][gen][emo][id] = img
 
-    def get_face(self, grayscale=True, rac='W', gen='F', emo='HC', id='022'):
+    def get_face(self, grayscale=True, rac='W', gen='F', emo='HC', id='022',
+                  resize=(28,28)):
         """Return a singular face image object from DB"""
+        img = self.resize(rac, gen, emo, id, (resize))
         if grayscale:
-            return cv2.cvtColor(self.images[rac][gen][emo][id], cv2.COLOR_BGR2GRAY)
-        else:
-            return self.images[rac][gen][emo][id]
+            img cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+        return self.images[rac][gen][emo][id]
 
-    def list_faces(self, rac='W', gen='F', emo='HC'):
-        """Return a list of faces of all persons matching provided
+    def list_faces(self, rac=None, gen=None, emo=None):
+        """Return a list of faces of all persons matching the provided
         race, gender, and emotion"""
-        return self.images[rac][gen][emo]
+        races = [rac]; genders = [gen]; emotions = [emo]
+        if rac == None: races = self.races
+        if gen == None: genders = self.genders
+        if emo == None: emotions = self.emotions
+        l = [img
+              for rac in races
+               for gen in genders
+                for emo in emotions
+                 for img in self.images.get(rac,{}).get(gen,{}).get(emo,set())]
+        return l
 
-    def load_data(self, grayscale=True, train_proportion=.9):
+    def load_data(self, grayscale=True, train_proportion=.9, resize=(28,28)):
         """Method for use in other scripts and/or modules
         to produce DB data in a systematic manner, split into
         a training set and a test set (similar to the keras-MNIST method)"""
@@ -155,7 +168,6 @@ class face_provider:
              np.array([], dtype=np.float32)], # Test
         ]
         # Iterate over entries in train and test sets and add labels to array
-        print("Preparing train_set with", train_proportion*100, "\% of data")
         for item in progressbar(train_set, redirect_stdout=True):
             entry = dict(zip(['rac', 'gen', 'emo', 'id'], item.split()))
             # print(item, entry)
@@ -166,7 +178,6 @@ class face_provider:
             #     Gender[entry[1]].value,
             #     Emotion[entry[2]].value,
             # ], dtype=np.uint8))
-        print("Preparing test_set with", (1-train_proportion)*100, "\% of data")
         for item in progressbar(test_set, redirect_stdout=True):
             entry = dict(zip(['rac', 'gen', 'emo', 'id'], item.split()))
             # print(entry)
@@ -185,4 +196,4 @@ if __name__ == '__main__':
     fp.index_faces()
     fp.dump_to_pickle()
 
-    # print(fp.list_faces('W','M','HC'))
+    # print(fp.list_faces('W','F','HC'))
