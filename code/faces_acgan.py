@@ -71,7 +71,6 @@ class ACGAN():
         model.add(UpSampling2D())
         model.add(Conv2D(128, kernel_size=4, padding="same"))
         model.add(Activation("relu"))
-        model.add(Dropout(0.25)) # !!
         model.add(BatchNormalization(momentum=0.8))
         model.add(UpSampling2D())
         model.add(Conv2D(64, kernel_size=4, padding="same"))
