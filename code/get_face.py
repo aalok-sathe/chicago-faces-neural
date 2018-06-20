@@ -201,4 +201,3 @@ if __name__ == '__main__':
     fp.dump_to_pickle()
 
     print(fp.list_faces('W','F','HC'))
-'F','HC'))
