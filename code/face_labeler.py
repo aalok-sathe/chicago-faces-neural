@@ -9,6 +9,7 @@ from keras.models import Sequential, Model
 from keras.optimizers import Adam
 
 import matplotlib.pyplot as plt
+from progressbar import progressbar
 
 import json
 import os
@@ -106,7 +107,7 @@ class ACGAN():
         valid = np.ones((batch_size, 1))
         fake = np.zeros((batch_size, 1))
 
-        for epoch in range(epochs):
+        for epoch in progressbar(range(epochs), redirect_stdout=True):
 
             # ---------------------
             #  Train Discriminator
@@ -192,4 +193,4 @@ class ACGAN():
 
 if __name__ == '__main__':
     acgan = ACGAN()
-    acgan.train(epochs=10000, batch_size=32, sample_interval=10)
+    acgan.train(epochs=2048, batch_size=32, sample_interval=10)
