@@ -184,20 +184,20 @@ class ACGAN():
 
             # If at save interval => save generated image samples
             runtime_params = dict()
-            try:
+            if not epoch%5:
                 with open("runtime.kerasconfig", 'r') as file:
                     runtime_params = json.load(file)
-                    sample_interval = runtime_params.get("sample_every", sample_interval)
-            except Exception as e:
-                print(e)
+                    sample_interval = runtime_params.get("sample_every",
+                                                          sample_interval)
 
             if epoch % sample_interval == 0:
                 self.save_model()
-                self.sample_images(epoch)
+                self.sample_images(epoch=epoch,
+                                    cmap=runtime_params.get("cmap", "gray"))
             if epoch >= runtime_params.get("num_epochs", epochs):
                 break
 
-    def sample_images(self, epoch):
+    def sample_images(self, epoch=-1, cmap="hsv"):
         r, c = self.num_classes, self.num_classes
         noise = np.random.normal(0, 1, (r * c, 100))
         sampled_labels = np.array([num%self.num_classes for _ in range(r) for num in range(c)])
@@ -210,7 +210,7 @@ class ACGAN():
         for i in range(r):
             for j in range(c):
                 if self.channels==1:
-                    axs[i,j].imshow(gen_imgs[cnt,:,:,0], cmap='jet', extent=[0,100,0,1], aspect='100')
+                    axs[i,j].imshow(gen_imgs[cnt,:,:,0], cmap=cmap, extent=[0,100,0,1], aspect='100')
                 else:
                     axs[i,j].imshow(gen_imgs[cnt,:,:,:], extent=[0,100,0,1], aspect='100')
                 cnt += 1
