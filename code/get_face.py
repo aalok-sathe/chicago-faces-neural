@@ -138,8 +138,8 @@ class face_provider:
         # img = pickle.load(open(self.images[rac][gen][emo][id]), 'rb') # WIP
         img = self.resize(rac, gen, emo, id, resize=resize)
         if grayscale:
-            cv2.cvtColor(img, img, cv2.COLOR_BGR2GRAY)
-        return self.images[rac][gen][emo][id]
+            img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+        return img
 
     def list_faces(self, rac=None, gen=None, emo=None):
         """Return a list of faces of all persons matching the provided
