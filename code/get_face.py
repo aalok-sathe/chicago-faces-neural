@@ -127,10 +127,9 @@ class face_provider:
     def resize(self, rac='W', gen='F', emo='HC', id='022', resize=(28,28)):
         """Resize image to supplied dimensions"""
         img = self.images[rac][gen][emo][id]
-        if resize!=img.shape:
-            return cv2.resize(img, resize, interpolation = cv2.INTER_AREA)
-        else:
-            return img
+        if resize!=img.shape[0:2]:
+            img = cv2.resize(img, resize, interpolation = cv2.INTER_AREA)
+        return img
         # self.images[rac][gen][emo][id] = img
 
     def get_face(self, grayscale=True, rac='W', gen='F', emo='HC', id='022',
