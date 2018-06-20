@@ -139,6 +139,7 @@ class face_provider:
         img = self.resize(rac, gen, emo, id, resize=resize)
         if grayscale:
             img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+            img = np.reshape(img, (self.img_rows, self.img_cols, self.channels))
             print(img.shape)
         else:
             print(grayscale)
