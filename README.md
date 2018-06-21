@@ -50,9 +50,11 @@ The model was trained on 80% of all data in 100 epochs with a batch size of 16.
 The model was evaluated on the remaining 20% of the data and produced
 the results that follow. [As of commit 2b5bac].
 
-| net loss            | `race' loss         | `gender' loss        | `emotion' loss      | `race' accuracy     | `gender' accuracy   |  `emotion' accuracy |
-|---------------------|---------------------|----------------------|---------------------|---------------------|---------------------|---------------------|
+
+| net loss | 'race' loss | 'gender' loss | 'emotion' loss | 'race' accuracy | 'gender' accuracy | 'emotion' accuracy |
+:-------------------------:|:-------------------------:|:-------------------------:|:-------------------------:|:-------------------------:|:-------------------------:|:-------------------------:|
 | 1.1508 | 0.2596 | 0.0855 | 0.8055 | 0.8925 | 0.9669 | 0.7685  |
+
 
 #### Generator
 
@@ -84,7 +86,7 @@ color, they being low-res at 28x28, or high-res at 100x100 or better.
 output for 'female', the image in the middle is the output for 'male' and
 the image on the far right corresponds to 'UNK'
 
-| epoch=40 | epoch=100 | epoch = 200 |
+| epoch=40 | epoch=100 | epoch=200 |
 :-------------------------:|:-------------------------:|:-------------------------:
 <img src="https://glcdn.githack.com/aalok-sathe/chicago-faces-neural/raw/master/code/images/old/100x100/40.png" alt="img" width="50%";/> | <img src="https://glcdn.githack.com/aalok-sathe/chicago-faces-neural/raw/master/code/images/old/100x100/100.png" alt="img" width="50%";/> | <img src="https://glcdn.githack.com/aalok-sathe/chicago-faces-neural/raw/master/code/images/old/100x100/200.png" alt="img" width="50%";/> |	
 
@@ -135,23 +137,23 @@ training script: in grayscale (single channel) and reduced to 100x100.
 ```bash
 .
 ├── code
-│   ├── cp_imgs.sh
-│   ├── face_labeler.py
-│   ├── faces_acgan.py
-│   ├── get_face.py
-│   ├── images [not opening dir]
-│   ├── pickled
-│   │   ├── image_containers.pickle
-│   │   ├── images.pickle
-│   │   └── indexed_faces.pickle
-│   ├── runtime.kerasconfig
-│   └── saved_model [not opening dir]
+│   ├── cp_imgs.sh
+│   ├── face_labeler.py
+│   ├── faces_acgan.py
+│   ├── get_face.py
+│   ├── images [not opening dir]
+│   ├── pickled
+│   │   ├── image_containers.pickle
+│   │   ├── images.pickle
+│   │   └── indexed_faces.pickle
+│   ├── runtime.kerasconfig
+│   └── saved_model [not opening dir]
 ├── data
-│   └── cfd2.0.3
-│       ├── CFD 2.0.3 Norming Data and Codebook.ods
-│       ├── CFD 2.0.3 Read Me.pdf
-│       ├── data.csv
-│       └── images [597 entries exceeds filelimit, not opening dir]
+│   └── cfd2.0.3
+│       ├── CFD 2.0.3 Norming Data and Codebook.ods
+│       ├── CFD 2.0.3 Read Me.pdf
+│       ├── data.csv
+│       └── images [597 entries exceeds filelimit, not opening dir]
 ├── LICENSE
 ├── README.md
 └── readme.pdf
