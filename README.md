@@ -69,12 +69,32 @@ gender). The images have been produced under a variety of configurations and a
 combination of options, such as the source images being single-channel gray vs.
 color, they being low-res at 28x28, or high-res at 100x100 or better.
 
-* the `basic` config. model trained on 28x28 images, grayscale.
+* the `basic` config. model trained on 28x28 images, grayscale. 3 convolutional
+    layers with kernel sizes 3,3,3
+    * within each epoch-grid, the image on the far left is the generator's
+      output for 'female', the image in the middle is the output for 'male' and
+      the image on the far right corresponds to 'UNK'
+
+| epoch=30 | epoch=95 |
+:-------------------------:|:-------------------------:
+<img src="https://glcdn.githack.com/aalok-sathe/chicago-faces-neural/raw/master/code/images/old/28x28/30.png" alt="img" width="50%";/> | <img src="https://glcdn.githack.com/aalok-sathe/chicago-faces-neural/raw/master/code/images/old/28x28/95.png" alt="img" width="50%";/> |	
+
+* the `basic` config, similar to above, but trained on 100x100 grayscale images.
+
+| epoch=40 | epoch=100 | epoch = 200 |
+:-------------------------:|:-------------------------:|:-------------------------:
+<img src="https://glcdn.githack.com/aalok-sathe/chicago-faces-neural/raw/master/code/images/old/100x100/40.png" alt="img" width="33%";/> | <img src="https://glcdn.githack.com/aalok-sathe/chicago-faces-neural/raw/master/code/images/old/100x100/100.png" alt="img" width="33%";/> | <img src="https://glcdn.githack.com/aalok-sathe/chicago-faces-neural/raw/master/code/images/old/100x100/200.png" alt="img" width="33%";/> |	
+
+
+* model trained on 100x100 images, grayscale. convolution layer kernel size
+increased from 3,3,3 for 3 layers to 4,7,10
+    * within each epoch-grid, the label '0' is for female and '1' is for male
 
 | epoch=220 | epoch=500 |
 :-------------------------:|:-------------------------:
 <img src="https://glcdn.githack.com/aalok-sathe/chicago-faces-neural/raw/master/code/images/20180619_1158/220.png" alt="img" width="50%";/> | <img src="https://glcdn.githack.com/aalok-sathe/chicago-faces-neural/raw/master/code/images/20180619_1158/500.png" alt="img" width="50%";/> |	
 
+* 
 
 ### Notes
 
