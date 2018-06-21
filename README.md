@@ -5,7 +5,7 @@
 
 
 Note, CFD is not provided here in its original form due to copyright reasons.
-You will need to obtain your own copy from
+You will need to obtain your own copy (at no cost) from
 [here](http://faculty.chicagobooth.edu/bernd.wittenbrink/cfd/index.html) and
 organize and rename some of the files in the manner described below.
 However, pickled data is kept in repo as git-lfs pointers, and contains implicit
