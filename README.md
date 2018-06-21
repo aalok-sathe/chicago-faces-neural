@@ -73,7 +73,7 @@ color, they being low-res at 28x28, or high-res at 100x100 or better.
 
 | epoch=220 | epoch=500 |
 :-------------------------:|:-------------------------:
-<img src="https://glcdn.githack.com/aalok-sathe/chicago-faces-neural/raw/master/code/images/20180619_1158/220.png" alt="img" width="200px";/> | <img src="https://glcdn.githack.com/aalok-sathe/chicago-faces-neural/raw/master/code/images/20180619_1158/500.png" alt="img" width="200px";/> |	
+<img src="https://glcdn.githack.com/aalok-sathe/chicago-faces-neural/raw/master/code/images/20180619_1158/220.png" alt="img" width="50%";/> | <img src="https://glcdn.githack.com/aalok-sathe/chicago-faces-neural/raw/master/code/images/20180619_1158/500.png" alt="img" width="50%";/> |	
 
 
 ### Notes
