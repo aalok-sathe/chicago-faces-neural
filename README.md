@@ -69,6 +69,12 @@ gender). The images have been produced under a variety of configurations and a
 combination of options, such as the source images being single-channel gray vs.
 color, they being low-res at 28x28, or high-res at 100x100 or better.
 
+* the `basic` config. model trained on 28x28 images, grayscale.
+
+| epoch=220 | epoch=500 |
+:-------------------------:|:-------------------------:
+<img src="https://glcdn.githack.com/aalok-sathe/chicago-faces-neural/raw/master/code/images/20180619_1158/220.png" alt="img" width="200px";/> | <img src="https://glcdn.githack.com/aalok-sathe/chicago-faces-neural/raw/master/code/images/20180619_1158/500.png" alt="img" width="200px";/> |	
+
 
 ### Notes
 
