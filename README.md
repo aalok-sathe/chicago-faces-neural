@@ -88,7 +88,7 @@ the image on the far right corresponds to 'UNK'
 
 | epoch=40 | epoch=100 | epoch=200 |
 :-------------------------:|:-------------------------:|:-------------------------:
-<img src="https://glcdn.githack.com/aalok-sathe/chicago-faces-neural/raw/master/code/images/old/100x100/40.png" alt="img" width="50%";/> | <img src="https://glcdn.githack.com/aalok-sathe/chicago-faces-neural/raw/master/code/images/old/100x100/100.png" alt="img" width="50%";/> | <img src="https://glcdn.githack.com/aalok-sathe/chicago-faces-neural/raw/master/code/images/old/100x100/200.png" alt="img" width="50%";/> |	
+<img src="https://glcdn.githack.com/aalok-sathe/chicago-faces-neural/raw/master/code/images/old/100x100/40.png" alt="img" width="75%";/> | <img src="https://glcdn.githack.com/aalok-sathe/chicago-faces-neural/raw/master/code/images/old/100x100/100.png" alt="img" width="75%";/> | <img src="https://glcdn.githack.com/aalok-sathe/chicago-faces-neural/raw/master/code/images/old/100x100/200.png" alt="img" width="75%";/> |	
 
 
 * model trained on 100x100 images, grayscale. convolution layer kernel size
@@ -107,7 +107,7 @@ increased from 3,3,3 for 3 layers to 4,7,10
 
 |epoch=64 | epoch=272 | epoch=780|
 :-------------------------:|:-------------------------:|:-------------------------:|
-<img src="https://glcdn.githack.com/aalok-sathe/chicago-faces-neural/raw/master/code/images/20180619_1728/64.jpg" alt="img" width="50%";/> | <img src="https://glcdn.githack.com/aalok-sathe/chicago-faces-neural/raw/master/code/images/20180619_1728/272.jpg" alt="img" width="50%";/> | <img src="https://glcdn.githack.com/aalok-sathe/chicago-faces-neural/raw/master/code/images/20180619_1728/780.jpg" alt="img" width="50%";/> |
+<img src="https://glcdn.githack.com/aalok-sathe/chicago-faces-neural/raw/master/code/images/20180619_1728/64.jpg" alt="img" width="75%";/> | <img src="https://glcdn.githack.com/aalok-sathe/chicago-faces-neural/raw/master/code/images/20180619_1728/272.jpg" alt="img" width="75%";/> | <img src="https://glcdn.githack.com/aalok-sathe/chicago-faces-neural/raw/master/code/images/20180619_1728/780.jpg" alt="img" width="75%";/> |
 
 You will find more such sample images from various runs in `code/images/`.
 Using the timestamp-titles of the containing directories, you may be able to
