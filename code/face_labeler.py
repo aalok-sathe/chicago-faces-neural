@@ -1,5 +1,5 @@
-from __future__ import print_function, division
 
+# keras imports
 from keras.datasets import mnist
 from keras.layers import Input, Dense, Reshape, Flatten, Dropout, multiply
 from keras.layers import BatchNormalization, Activation, Embedding, ZeroPadding2D
@@ -8,32 +8,36 @@ from keras.layers.convolutional import UpSampling2D, Conv2D
 from keras.models import Sequential, Model
 from keras.optimizers import Adam
 
+# installed modules (available through PyPI)
 import matplotlib.pyplot as plt
-from progressbar import progressbar
+from progressbar import progressbar # to display progress during iteration
+import json # to save model config
+import os # for filesystem access and i/o
+import time # timestamp
+import datetime # ^
+import numpy as np # vector computations
 
-import json
-import os
-import time
-import datetime
-import numpy as np
-import get_face
+# custom module(s)
+import get_face # index and retrieve labeled face data for training
 
-class ACGAN():
+class Discriminator():
     def __init__(self):
-        # Input shape
+        # input shape
         self.img_rows = 32
         self.img_cols = 32
-        self.channels = 1
+        self.channels = 1 # grayscale = 1; BGR = 3
         self.img_shape = (self.img_rows, self.img_cols, self.channels)
 
-        self.num_genders = 2
-        self.num_races = 4
-        self.num_emotions = 5
+        # total numbers of each class of labels in this database
+        self.num_genders = 2 # 'M'ale, 'F'emale
+        self.num_races = 4 # 'A'sian, 'B'lack, 'L'atino, 'W'hite
+        self.num_emotions = 5 # 'A'ngry, 'F'earful, 'H'appy ('C'losed mouth)
+                              # 'H'appy ('O'pen mouth), 'N'eutral
 
-        self.num_classes = 2
-        self.latent_dim = 100
-
+        # create a timestamp at init time so the same timestamp is used
         self.timestamp = datetime.datetime.fromtimestamp(time.time()).strftime('%Y%m%d_%H%M')
+
+        # initialize face provider module and prep it
         self.face_db = get_face.face_provider()
         self.face_db.load_from_pickle()
 
@@ -44,7 +48,7 @@ class ACGAN():
                     'sparse_categorical_crossentropy'
                  ]
 
-        # Build and compile the discriminator
+        # build and compile the discriminator by calling its function
         self.discriminator = self.build_discriminator()
         self.discriminator.compile(loss=losses,
             optimizer=optimizer,
